@@ -1,0 +1,15 @@
+{% extends 'public.html.twig' %}
+
+{% block title %}Interdit{% endblock %}
+
+{% block body %}
+    <div class="container text-center d-flex align-items-end" style="height: 50%">
+        <div class="col">
+            <h1>Tentative de piratage des données ?</h1>
+            <p>
+                Cette ressource vous est interdite !
+            </p>
+            <a href="{{ path('homepage') }}" class="btn btn-outline-primary">Donnez moi la main, je vous raccompagne à la Galerie</a>
+        </div>
+    </div>
+{% endblock %}

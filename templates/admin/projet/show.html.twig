@@ -1,0 +1,52 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Projet : {{ projet.title }}{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Projet : {{ projet.title }} de {{ projet.author.username }}</h1>
+            </div>
+            <div class="col-md-6">
+
+            </div>
+        </div>
+
+
+        <table class="table table-hover table-striped table-dark">
+            <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ projet.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ projet.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ projet.description }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ projet.createdAt|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ projet.updatedAt ? projet.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ projet.slug }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('admin_projet_index') }}" class="btn btn-outline-primary">Retour à la liste</a>
+
+        <a href="{{ path('admin_projet_edit', {'slug': projet.slug}) }}" class="btn btn-outline-warning">Editer</a>
+
+
+    </div>
+{% endblock %}

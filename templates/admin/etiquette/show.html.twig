@@ -1,0 +1,24 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Etiquette{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Etiquette</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ etiquette.id }}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ etiquette.name }}</td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="{{ path('admin_etiquette_index') }}" class="btn btn-outline-secondary">Liste des étiquettes</a>
+    <a href="{{ path('admin_etiquette_edit', {'id': etiquette.id}) }}" class="btn btn-outline-warning">Editer</a>
+</div>
+{% endblock %}

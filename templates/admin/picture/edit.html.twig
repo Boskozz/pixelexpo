@@ -1,0 +1,41 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Edition de la photo : {{ picture.title }}{% endblock %}
+
+{% block body %}
+    <div class="container-fluid my-3">
+        <div class="row">
+            <div class="col-md-4">
+                {% if picture.rotation is not empty %}
+                    <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter(picture.rotation) }}" alt="" width="100%" height="auto" class="my-3 mx-3">
+                {% else %}
+                    <img src="{{ vich_uploader_asset(picture, 'imageFile') }}" alt="" width="100%" height="auto" class="my-3 mx-3">
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+                <h2>Edition de la photo : {{ picture.title }} de {{ picture.album.projet.author.username }}</h2>
+                {{ form_start(form) }}
+                {{ form_widget(form.title) }}
+                {{ form_widget(form.description) }}
+                {{ form_widget(form.private) }}
+                {{ form_widget(form.etiquettes) }}
+                <button type="submit" class="btn btn-outline-primary">Valider la modification</button>
+                <a href="{{ path('admin_picture_show', {id: picture.id}) }}" class="btn btn-outline-secondary">Retour à l'image</a>
+                {{ form_end(form) }}
+                {#{{ include('admin/album/_form.html.twig', {'button_label': 'Valider la modification'}) }}#}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+    <script>
+        $('select').select2();
+        $('.select2').css('background-color', 'yellow')
+    </script>
+{% endblock %}

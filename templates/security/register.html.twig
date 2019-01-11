@@ -1,0 +1,16 @@
+{% extends 'public.html.twig' %}
+
+{% block title %}S'enregistrer{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center my-3">
+    <div class="col-md-4 cadre-bord-login bg-dark text-center">
+        <h1>Inscription droit devant !</h1>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-outline-success">Confirmez l'inscription</button>
+        {{ form_end(form) }}
+    </div>
+</div>
+{{ include('partials/footer.html.twig') }}
+{% endblock %}

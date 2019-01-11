@@ -1,0 +1,76 @@
+{% extends 'public.html.twig' %}
+
+{% block title %}Mes commentaires{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6"><h1>Mes commentaires</h1></div>
+            {% if is_granted('ROLE_CREATOR') %}
+            <div class="col-md-6 text-right"><a href="{{ path('comment_mes_photo') }}" class="btn btn-outline-primary mt-2">Commentaires sur mes photos</a></div>
+            {% endif %}
+        </div>
+        <table class="table table-dark table-striped">
+            <thead>
+            <tr>
+                <th>Nom de l'image</th>
+                <th>Commentaires</th>
+                <th>Notation</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for comment in mesCom %}
+                <tr>
+                    <td>
+                        <a href="{{ path('public_picture', {slug: comment.pslug, id: comment.pid, username: comment.username}) }}"
+                           class="text-white">
+                            {{ comment.title }}
+                            <div><img src="/media/cache/rsgalerie/media/images/{{ comment.filename }}" alt=""></div>
+                        </a>
+                    </td>
+                    <td>{{ comment.content }}</td>
+                    <td>{{ include('partials/_rating.html.twig', {rating: comment.rating}) }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">Aucun enregistrement trouvé</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="row justify-content-center">
+            <div class="pagination">
+                {{ knp_pagination_render(mesCom) }}
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function openPage(pageName, elmnt, color) {
+            // Hide all elements with class="tabcontent" by default */
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Remove the background color of all tablinks/buttons
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].style.backgroundColor = "";
+            }
+
+            // Show the specific tab content
+            document.getElementById(pageName).style.display = "block";
+
+            // Add the specific color to the button used to open the tab content
+            elmnt.style.backgroundColor = color;
+        }
+
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+    </script>
+{% endblock %}

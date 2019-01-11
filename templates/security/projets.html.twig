@@ -1,0 +1,46 @@
+{% extends 'public.html.twig' %}
+
+{% block title %}
+    Projet de {{ app.request.pathInfo|split('/')[1]|capitalize }}
+{% endblock %}
+
+{% block body %}
+    <div class="container mb-2">
+        {% for projet in projets %}
+            <div class="row d-flex align-items-end my-2" style="{% if projet.filename is not empty %}
+                    background-image: url({{ vich_uploader_asset(projet, 'imageFile') }});
+            {% else %}
+                    background-color: {{ projet.color }}
+            {% endif %}">
+            <div class="col-md-12 text-center text-ombre-white">
+                <h2>{{ projet.title|upper }}</h2>
+                {{ projet.description }}
+            </div>
+
+            {% for album in projet.albums if album.private == false %}
+                {% set vase = album %}
+                <div class="col-md-4 card opa-7 m-2">
+                    <div class="card-header"><a href="{{ path('public_album', {slug: album.slug, id: album.id, username: user.username}) }}" class="noir gras">{{ album.title }}</a></div>
+                    <div class="card-body">{{ album.description }}</div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        <a href="{{ path('homepage') }}" class="btn btn-outline-secondary">Galerie</a>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <div class="footer">
+        <div class="row justify-content-center">
+            <div class="col-md-12 text-center py-3">
+                <h1>
+                    <a href="{{ path('public_profile', {username: user.username}) }}" class="text-white">
+                    {{ user.username|capitalize }}
+                    </a>
+                </h1>
+            </div>
+            <div class="col-md-2">Membre depuis le : {{ user.createdAt|date('d/m/Y') }}</div>
+        </div>
+    </div>
+{% endblock %}

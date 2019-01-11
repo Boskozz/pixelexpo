@@ -1,0 +1,63 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Album : {{ album.title }}{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4"><h4>{{ album.title }}</h4></div>
+                    <div class="col-md-4">Auteur : {{ album.projet.author.username }}</div>
+                </div>
+            </div>
+        </div>
+        <table class="table table-hover table-striped table-dark">
+            <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ album.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ album.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ album.description }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ album.createdAt|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ album.updatedAt ? album.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ album.slug }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <a href="{{ path('admin_album_index') }}" class="btn btn-outline-primary">Retour à la liste</a>
+
+        <a href="{{ path('admin_album_edit', {'id': album.id}) }}" class="btn btn-outline-warning">Editer l'album / Ajouter des photos</a>
+
+        <div class="row">
+            {% for picture in album.pictures %}
+                <div class="col-md-3">
+                    <a href="{{ path('admin_picture_show', {id: picture.id}) }}">
+                        {% if picture.rotation is not empty %}
+                            <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter('thumb500') }}" alt="" width="100%" height="auto" class="my-3">
+                        {% else %}
+                            <img src="{{ vich_uploader_asset(picture, 'imageFile') }}" alt="" width="100%" height="auto" class="my-3">
+                        {% endif %}
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}

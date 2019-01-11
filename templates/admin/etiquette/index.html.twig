@@ -1,0 +1,42 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Liste des tags{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1>Liste des tags</h1>
+
+        <table class="table table-stripped table-dark text-center">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for etiquette in etiquettes %}
+                <tr>
+                    <td>{{ etiquette.id }}</td>
+                    <td>{{ etiquette.name }}</td>
+                    <td>
+                        <a href="{{ path('admin_etiquette_show', {'id': etiquette.id}) }}" class="btn btn-outline-success btn-sm">Voir</a>
+                        <a href="{{ path('admin_etiquette_edit', {'id': etiquette.id}) }}" class="btn btn-outline-warning btn-sm">Editer</a>
+                        {{ include('admin/etiquette/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="row justify-content-center">
+            <div class="pagination">
+                {{ knp_pagination_render(etiquettes) }}
+            </div>
+        </div>
+        <a href="{{ path('admin_etiquette_new') }}" class="btn btn-outline-primary">Nouvelle étiquette</a>
+    </div>
+{% endblock %}

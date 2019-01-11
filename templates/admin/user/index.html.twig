@@ -1,0 +1,47 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Liste des utilisateurs{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1>Liste des utilisateurs</h1>
+        <table class="table table-dark table-hover table-striped">
+            <thead>
+                <th>Nom d'utilisateur</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Membre depuis</th>
+                <th>Profil maj le</th>
+                <th>Actif ?</th>
+                <th>Roles</th>
+                <th>Actions</th>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.lastName }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.createdAt|date('d/m/Y') }}</td>
+                    <td>{{ user.updatedAt|date('d/m/Y') }}</td>
+                    <td>{% if user.estActif %}V{% else %}X{% endif %}</td>
+                    <td>{% for role in user.roles %}{{ role }}{% endfor %}</td>
+                    <td>
+                        <a href="{{ path('public_profile', {username: user.username}) }}" class="btn btn-outline-success btn-sm">Voir</a>
+                        <a href="{{ path('admin_user_edit', {username: user.username}) }}" class="btn btn-outline-warning btn-sm">Editer</a>
+                        {#<a href="" class="btn btn-outline-danger btn-sm">Supprimer</a>#}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="row justify-content-center">
+            <div class="pagination">
+                {{ knp_pagination_render(users) }}
+            </div>
+        </div>
+        <a href="{{ path('register') }}" class="btn btn-outline-primary">Ajouter un nouvel utilisateur</a>
+    </div>
+{% endblock %}

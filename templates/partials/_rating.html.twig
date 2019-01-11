@@ -1,0 +1,20 @@
+<span class="rating">
+    {% for i in 1..5 %}
+        {% if rating < 2 %}
+            {% set color = 'red' %}
+        {% elseif rating >= 2 and rating < 3 %}
+            {% set color = 'darkorange' %}
+        {% elseif rating >= 3 and rating < 4 %}
+            {% set color = 'blue' %}
+        {% elseif rating >= 4 and rating < 5 %}
+            {% set color = 'green' %}
+        {% elseif rating >= 5 %}
+            {% set color = 'goldenrod' %}
+        {% endif %}
+        {% if i <= rating %}
+            <i class="fas fa-star" style="color: {{ color }};"></i>
+        {% else %}
+            <i class="far fa-star" style="color: {{ color }};"></i>
+        {% endif %}
+    {% endfor %}
+</span>

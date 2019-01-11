@@ -1,0 +1,16 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+<button class="btn btn-primary">{{ button_label }}</button>
+{% if app.request.attributes.get('_route') == 'admin_album_new' %}
+    <a href="{{ path('admin_album_index') }}" class="btn btn-secondary">Retour à la liste</a>
+{% elseif app.request.attributes.get('_route') == 'admin_album_edit' %}
+    <a href="{{ path('admin_album_show', {'slug': album.slug}) }}" class="btn btn-secondary">Retour</a>
+{% endif %}
+{{ form_end(form) }}
+<div class="row flex">
+    {% for picture in album.pictures %}
+        <div class="col-md-3">
+            <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter("rotation_droite") }}" alt="" width="100%" height="auto" class="my-3 mx-3">
+        </div>
+    {% endfor %}
+</div>

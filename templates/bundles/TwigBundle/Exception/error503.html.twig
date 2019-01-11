@@ -1,0 +1,15 @@
+{% extends 'public.html.twig' %}
+
+{% block title %}Problème avec le serveur{% endblock %}
+
+{% block body %}
+    <div class="container text-center d-flex align-items-end" style="height: 50%">
+        <div class="col">
+            <h1>Pardonnez ce désagrément !</h1>
+            <p>
+                Si l'erreur persiste, veuillez nous contacter ! Merci,
+            </p>
+            <a href="{{ path('homepage') }}" class="btn btn-outline-primary">En attendant, retournez à la Galerie</a>
+        </div>
+    </div>
+{% endblock %}

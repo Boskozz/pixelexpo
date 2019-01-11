@@ -1,0 +1,5 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-outline-success">{{ button_label|default('Création du nouveau projet') }}</button>
+    <a href="{{ path('projet_index') }}" class="btn btn-outline-secondary">Retour à la liste</a>
+{{ form_end(form) }}

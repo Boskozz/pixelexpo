@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('admin_album_delete', {'id': album.id}) }}" onsubmit="return confirm('Etes vous sûr de vouloir supprimer ce projet?');" style="display: inline-block">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ album.id) }}">
+    <button class="btn btn-outline-danger btn-sm">Supprimer</button>
+</form>

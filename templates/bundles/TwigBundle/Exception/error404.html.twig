@@ -1,0 +1,15 @@
+{% extends 'public.html.twig' %}
+
+{% block title %}La page n'existe pas{% endblock %}
+
+{% block body %}
+    <div class="container text-center d-flex align-items-end" style="height: 50%">
+        <div class="col">
+            <h1>Oups, cette page n'existe pas !</h1>
+            <p>
+
+            </p>
+            <a href="{{ path('homepage') }}" class="btn btn-outline-primary">Galerie</a>
+        </div>
+    </div>
+{% endblock %}

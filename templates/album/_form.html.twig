@@ -1,0 +1,29 @@
+
+<div class="row">
+    <div class="col-md-6">
+        {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.private) }}
+        {{ form_row(form.pictureFiles) }}
+    </div>
+    <div class="col-md-6">
+        <div class="row flex justify-content-start flex-wrap">
+            {% for picture in album.pictures %}
+                <div class="col" style="width: 100px; margin: 5px;">
+                    <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter('thumb') }}" alt="" width="100">
+                    <a href="{{ path('picture_delete', {id: picture.id}) }}" class="btn btn-danger" data-delete
+                       data-token="{{ csrf_token('delete' ~ picture.id) }}">Supprimer</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+    <button class="btn btn-outline-success">{{ button_label }}</button>
+{% if app.request.attributes.get('_route') == 'album_new' %}
+    <a href="{{ path('album_index') }}" class="btn btn-outline-secondary">Retour à la liste</a>
+{% elseif app.request.attributes.get('_route') == 'album_edit' %}
+    <a href="{{ path('album_show', {'slug': album.slug, id: album.id}) }}" class="btn btn-outline-secondary">Retour à l'album</a>
+{% endif %}
+{{ form_end(form) }}
+

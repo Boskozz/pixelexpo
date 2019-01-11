@@ -1,0 +1,97 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Album : {{ picture.title }}{% endblock %}
+
+{% block stylesheets %}
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet'/>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 justify-content-center">
+                {% if picture.rotation is not empty %}
+                    <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter(picture.rotation) }}" alt=""
+                         width="100%" height="auto" class="my-3 mx-3">
+                {% else %}
+                    <img src="{{ vich_uploader_asset(picture, 'imageFile') }}" alt="" width="100%" height="auto"
+                         class="my-3 mx-3">
+                {% endif %}
+            </div>
+            <div class="col-md-4 mt-2">
+                <div class="row">
+                    <div class="col-md-12">
+                        {#<h1>Photo de {{ picture.album.projet.author.username }}</h1>#}
+                    </div>
+                </div>
+                <table class="table table-hover table-striped table-dark">
+                    <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ picture.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Title</th>
+                        <td>{{ picture.title }}</td>
+                    </tr>
+                    <tr>
+                        <th>Tags</th>
+                        <td>
+                            {% for tag in picture.etiquettes %}
+                                {{ tag.name }}{% if not loop.last %} / {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {% for key, val in picture.info %}
+                        <tr>
+                            <th>{{ key }}</th>
+                            <td>{{ val }}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <th>Rotation</th>
+                        <td>{{ picture.rotation }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ picture.description }}</td>
+                    </tr>
+                    <tr>
+                        <th>CreatedAt</th>
+                        <td>{{ picture.createdAt|date('d/m/Y H:i:s') }}</td>
+                    </tr>
+                    <tr>
+                        <th>UpdatedAt</th>
+                        <td>{{ picture.updatedAt ? picture.updatedAt|date('d/m/Y H:i:s') : '' }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col">
+                        <a href="{{ path('admin_album_show', {slug: picture.album.slug}) }}"
+                           class="btn btn-outline-primary">Retour à l'album</a>
+                        <a href="{{ path('admin_picture_edit', {'id': picture.id}) }}" class="btn btn-outline-warning">Editer</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mt-2">
+                <div id='map' style='width: 100%; height: 300px;'></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {% if picture.info["Longitude"] is defined %}
+        <script src='https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+        <script>
+            mapboxgl.accessToken = 'pk.eyJ1Ijoic2Fya2FzZWVkIiwiYSI6ImNqcHNkdGRzYzBiMHU0Mm1qcXQxd3dkdnkifQ.nGjJx5mm5ZDJLR5rQ43Icw';
+            var map = new mapboxgl.Map({
+                container: 'map',
+                center: [{{ picture.info["Longitude"] }}, {{ picture.info["Latitude"] }}],
+                zoom: 18,
+                style: 'mapbox://styles/mapbox/streets-v11'
+            });
+        </script>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,202 @@
+{% extends 'public.html.twig' %}
+
+{% block title %}
+    Tableau de bord
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-md-4">
+                <table class="table table-light table-striped">
+                    <tr>
+                        <td>Nom d'utilisateur</td>
+                        <td><a href="{{ path('public_profile', {username: user.username}) }}">{{ user.username }}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Prénom</td>
+                        <td>{{ user.firstName }}</td>
+                    </tr>
+                    <tr>
+                        <td>Nom</td>
+                        <td>{{ user.lastName }}</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <td>Membre depuis le</td>
+                        <td>{{ user.createdAt|date('d/m/Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Profil maj le</td>
+                        <td>{{ user.updatedAt|date('d/m/Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Role</td>
+                        <td>{{ user.roles[0] }}</td>
+                    </tr>
+                </table>
+                {% if is_granted("ROLE_CREATOR") %}
+                    <a href="{{ path('projet_new') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i>
+                        Nouveau projet</a>
+                {% endif %}
+                {% if is_granted("ROLE_ADMIN") %}
+                    <a href="{{ path('admin_dashboard') }}" class="btn btn-outline-danger"><i class="fas fa-tools"></i>
+                        Dashboard administrateur</a>
+                {% endif %}
+            </div>
+            {% if is_granted("ROLE_CREATOR") %}
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-12 bg-dark">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button class="tablink" onclick="openPage('MesCom', this, '#919191')"
+                                            id="defaultOpen">Mes derniers commentaires
+                                    </button>
+                                    <button class="tablink" onclick="openPage('PhtCom', this, '#919191')">Commentaires
+                                        sur mes photos
+                                    </button>
+                                    <button class="tablink" onclick="openPage('Meilleur', this, '#919191')">Les meilleures photos
+                                    </button>
+                                    <button class="tablink" onclick="openPage('Pire', this, '#919191')">Les pires photos
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="MesCom" class="tabcontent">
+                                <h3><u>Mes derniers commentaires</u> (<a href="{{ path('comment_mes_com') }}" class="text-white">Liste</a>)</h3>
+                                {% for comment in mesComments %}
+                                    <div class="row py-1">
+                                        <div class="col-md-3">
+                                            <a href="{{ path('public_picture', {username: comment.username, id: comment.pid, slug: comment.pslug}) }}" class="text-white">
+                                                {{ comment.title }}
+                                                <div><img src="/media/cache/rsgalerie/media/images/{{ comment.filename }}" alt=""></div>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6">{{ comment.content|slice(0,25) }}</div>
+                                        <div class="col-md-3 text-right">
+                                            <a href="{{ path('public_profile', {username: comment.username}) }}" class="text-white">{{ comment.username|capitalize }}</a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div id="PhtCom" class="tabcontent">
+                                <h3><u>Derniers commentaires sur mes photos</u></h3>
+                                {% for photoComment in mesPhotosComment %}
+                                    <div class="row py-1">
+                                        <div class="col-md-3">
+                                            <a href="{{ path('public_picture', {slug: photoComment.pslug, id: photoComment.pid, username: photoComment.username}) }}" class="text-white">
+                                                {{ photoComment.title }}
+                                                <div><img src="/media/cache/rsgalerie/media/images/{{ photoComment.filename }}" alt=""></div>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6"><em>{{ photoComment.content|slice(0,25) }}</em></div>
+                                        <div class="col-md-3 text-right">
+                                            <a href="{{ path('public_profile', {username: photoComment.username}) }}" class="text-white">{{ photoComment.username }}</a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div id="Meilleur" class="tabcontent">
+                                <h4><u>Les meilleures photos</u></h4>
+                                {% for key, bestPic in bestPics %}
+                                    <div class="row py-1">
+                                        <div class="col-md-8">
+                                            <a href="{{ path('public_picture', {slug: bestPic.slug, id: bestPic.id, username: bestPic.username}) }}" class="text-white">
+                                                {{ bestPic.title }}
+                                                <div><img src="/media/cache/rsgalerie/media/images/{{ bestPic.filename }}" alt=""></div>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-4">
+                                            {{ include('partials/_rating.html.twig', {rating: bestPic.note}) }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div id="Pire" class="tabcontent">
+                                <h4><u>Les pires photos</u></h4>
+                                {% for key, worstPic in worstPics %}
+                                    <div class="row py-1">
+                                        <div class="col-md-8">
+                                            <a href="{{ path('public_picture', {slug: worstPic.slug, id: worstPic.id, username: worstPic.username}) }}" class="text-white">
+                                                {{ worstPic.title }}
+                                                <div><img src="/media/cache/rsgalerie/media/images/{{ worstPic.filename }}" alt=""></div>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-4">
+                                            {{ include('partials/_rating.html.twig', {rating: worstPic.note}) }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% if is_granted("ROLE_CREATOR") == true %}
+        <div class="jumbotron my-3 bg-dark text-white">
+            <h2>Mes Projets</h2>
+            <div class="row">
+                {% for projet in user.projets %}
+                    {% cache 'projet' ~ projet.id projet.updatedAt.timestamp %}
+                    <div class="col-md-2">
+                        <div class="card bg-primary text-white mb-3 text-center">
+                            <div class="card-header">
+                                <h5><a href="{{ path('projet_show', {slug: projet.slug}) }}"
+                                       style="color: white;">{{ projet.title }}</a></h5>
+                            </div>
+                            <div class="card-body">
+                                <h5>{{ projet.albums | length }} Albums</h5>
+                            </div>
+                            <div class="card-footer">
+                                {% set total = 0 %}
+                                {% for album in projet.albums %}
+                                    <a href="{{ path('album_show', {slug: album.slug, id: album.id}) }}"
+                                       class="text-white">{{ album.title }}</a>
+                                    ({{ album.pictures|length }})
+                                    {% set total = total + album.pictures|length %}
+                                    {% if not loop.last %}<br>{% endif %}
+                                {% endfor %}
+                            </div>
+                            <h5>Total : {{ total }} Photos</h5>
+                        </div>
+                    </div>
+                    {% endcache %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function openPage(pageName, elmnt, color) {
+            // Hide all elements with class="tabcontent" by default */
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Remove the background color of all tablinks/buttons
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].style.backgroundColor = "";
+            }
+
+            // Show the specific tab content
+            document.getElementById(pageName).style.display = "block";
+
+            // Add the specific color to the button used to open the tab content
+            elmnt.style.backgroundColor = color;
+        }
+
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+    </script>
+{% endblock %}

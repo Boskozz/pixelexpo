@@ -1,0 +1,111 @@
+{% extends 'public.html.twig' %}
+
+{% block title %}{{ picture.title }} de {{ app.request.pathInfo|split('/')[1]|capitalize }}{% endblock %}
+
+{% block stylesheets %}
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet'/>
+{% endblock %}
+
+{% block body %}
+    <div class="my-2">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h1>{{ picture.title }}</h1>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="alert alert-info">
+                                    <div class="alert-heading">
+                                        <div class="row justify-content-end">
+                                            <div class="col-md-7">
+                                                Note moyenne ({{ picture.comments|length }})
+                                            </div>
+                                            <div class="col-md-5 text-right">
+                                                {% if picture.comments|length != 0 %}
+                                                    {{ include('partials/_rating.html.twig', {rating: picture.avgRatings}) }}
+                                                {% else %}
+                                                    Rédigez un premier commentaire !
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-2">
+                        {% for tag in picture.etiquettes %}
+                            <div class="badge bg-dark"><a href="{{ path('homepage') }}?etiquettes%5B%5D={{ tag.id }}" class="text-white">{{ tag.name }}</a></div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center mb-2 img-responsive">
+                        <a href="/media/images/{{ picture.filename }}" target="_blank">
+                            {% if picture.hauteur > 800 %}
+                                <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter('rsshow') }}"
+                                     alt="" width="auto" height="auto">
+                            {% else %}
+                                <img src="{{ vich_uploader_asset(picture, 'imageFile') }}" alt=""
+                                     width="{{ picture.largeur }}" height="{{ picture.hauteur }}">
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <a href="{{ path('public_album', {username: app.request.pathInfo|split('/')[1], slug: picture.album.slug, id: picture.album.id }) }}"
+                           class="btn btn-outline-primary mt-auto">Retour à l'album</a>
+                        <a href="{{ path('homepage') }}"
+                           class="btn btn-outline-secondary mt-auto">Retour à la galerie</a>
+                        <a href="#" class="btn btn-outline-info" id="commentaires">Afficher / Masquer les commentaires</a>
+                    </div>
+                </div>
+                <div class="row mt-2" id="blockcomm" style="display: none">
+                    <div class="col">
+                        {% set commentaire = picture.commentFromAuthor(app.user) %}
+                        {% if commentaire is not null %}
+                        <h4>Mon commentaire :</h4>
+                            <blockquote>{{ commentaire.content }}</blockquote>
+                            {{ include('partials/_rating.html.twig', {'rating': commentaire.rating}) }}
+                        {% elseif app.user == picture.album.projet.author %}
+                            <h3>Il est interdit de noter ses propres images</h3>
+                        {% else %}
+                        <h4>Votre avis compte !</h4>
+                        {{ form_start(form) }}
+                        {{ form_widget(form) }}
+                        <button class="btn btn-outline-success mb-2" type="submit">Valider le commentaire</button>
+                        {{ form_end(form) }}
+                        {% endif %}
+                        {% if picture.comments|length > 0 %}
+                            <h4 class="mb-3">Commentaires : </h4>
+                            {% for comment in picture.comments %}
+                                <div class="bg-light rounded mb-3 py-3 px-3">
+                                    <strong>{{ comment.author.username|capitalize }}</strong> a dit :
+                                    <blockquote>{{ comment.content }}</blockquote>
+                                    {{ include('partials/_rating.html.twig', {'rating': comment.rating}) }}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <h4>Cette image n'a pas encore de commentaires !</h4>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $( "#commentaires" ).click(function() {
+            $( "#blockcomm" ).toggle( "slow", function() {
+                // Animation complete.
+            });
+        });
+    </script>
+{% endblock %}

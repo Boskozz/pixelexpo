@@ -1,0 +1,54 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Liste des albums{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+    <h1 class="cadre-bord-login">Liste des albums</h1>
+
+    <table class="table table-dark table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>{{ 'title' | trans }}</th>
+                <th>Description</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>Author</th>
+                <th>Privé</th>
+                <th>Photos</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for album in albums %}
+            <tr>
+                <td>{{ album.id }}</td>
+                <td>{{ album.title }}</td>
+                <td>{{ album.description }}</td>
+                <td>{{ album.createdAt ? album.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ album.updatedAt ? album.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ album.projet.author.username }}</td>
+                <td>{% if album.private == 1 %}Oui{% else %}Non{% endif %}</td>
+                <td>{{ album.pictures|length }}</td>
+                <td>
+                    <a href="{{ path('admin_album_show', {'slug': album.slug}) }}" class="btn btn-outline-success btn-sm">Voir</a>
+                    <a href="{{ path('admin_album_edit', {'id': album.id}) }}" class="btn btn-outline-warning btn-sm">Editer</a>
+                    {{ include('admin/album/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Aucun enregistrement trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="row justify-content-center">
+        <div class="pagination">
+            {{ knp_pagination_render(albums) }}
+        </div>
+    </div>
+
+    </div>
+{% endblock %}

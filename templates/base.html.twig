@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Ma Galerie{% endblock %}</title>
+        {{ include('partials/_css.html.twig') }}
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        {% include 'partials/header.html.twig' with {'theme': 'clair'} %}
+        {% block body %}{% endblock %}
+        {% include 'partials/footer.html.twig' with {'theme': 'text-white'} %}
+        {{ include('partials/_js.html.twig') }}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

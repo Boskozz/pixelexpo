@@ -1,0 +1,10 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Edition Etiquette{% endblock %}
+
+{% block body %}
+<div class="container my-3">
+    <h1>Edition de l'étiquette</h1>
+    {{ include('admin/etiquette/_form.html.twig', {'button_label': 'Valider la modification'}) }}
+</div>
+{% endblock %}

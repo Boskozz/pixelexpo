@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('album_delete', {'id': album.id}) }}" onsubmit="return confirm('Etês-vous certain de vouloir supprimé cet album et ses photos liées?');" style="display: inline-block">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ album.id) }}">
+    <button class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></button>
+</form>

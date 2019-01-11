@@ -1,0 +1,53 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Liste des projets{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+    <h1 class="cadre-bord-login">Liste des projets</h1>
+
+    <table class="table table-dark table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>{{ 'title' | trans }}</th>
+                <th>Description</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>Author</th>
+                <th>Slug</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for projet in projets %}
+            <tr>
+                <td>{{ projet.id }}</td>
+                <td>{{ projet.title }}</td>
+                <td>{{ projet.description }}</td>
+                <td>{{ projet.createdAt ? projet.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ projet.updatedAt ? projet.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ projet.author.username }}</td>
+                <td>{{ projet.slug }}</td>
+                <td>
+                    <a href="{{ path('admin_projet_show', {'slug': projet.slug}) }}" class="btn btn-outline-success btn-sm">Voir</a>
+                    <a href="{{ path('admin_projet_edit', {'slug': projet.slug}) }}" class="btn btn-outline-warning btn-sm">Editer</a>
+                    {{ include('admin/projet/_delete_form.html.twig') }}
+                    <a href="{{ path('admin_album_new', {slug: projet.slug}) }}" class="btn btn-outline-primary btn-sm">Ajouter un nouvel album</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Aucun enregistrement trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        <div class="row justify-content-center">
+            <div class="pagination">
+                {{ knp_pagination_render(projets) }}
+            </div>
+        </div>
+        <a href="{{ path('admin_projet_new') }}" class="btn btn-outline-primary">Ajouter un nouveau projet</a>
+    </div>
+{% endblock %}

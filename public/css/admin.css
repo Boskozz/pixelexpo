@@ -1,0 +1,30 @@
+.cadre-bord-login-admin {
+    border-radius: 20px;
+    color: white;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-style: solid;
+    border-width: 5px;
+    border-color: #565656;
+}
+
+.alert-danger-admin {
+    background-color: darkred;
+    color: white;
+    border-color: #AA3333;
+    border-style: solid;
+    border-width: 3px;
+}
+
+span.rating i {
+    color: goldenrod;
+}
+
+a>div {
+    display: none;
+}
+
+a:hover>div {
+    display: block;
+}

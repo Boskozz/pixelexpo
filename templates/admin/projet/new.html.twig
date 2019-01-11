@@ -1,0 +1,10 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Nouveau Projet{% endblock %}
+
+{% block body %}
+    <div class="container mt-3">
+        <h1>Création d'un nouveau projet</h1>
+        {{ include('admin/projet/_form.html.twig', {'button_label': 'Valider la création'}) }}
+    </div>
+{% endblock %}

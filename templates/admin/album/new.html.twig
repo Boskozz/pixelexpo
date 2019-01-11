@@ -1,0 +1,10 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Nouvel album{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Création d'un nouvel album</h1>
+        {%  include('admin/album/_form.html.twig') with {'button_label': 'Créer l\'album'} %}
+    </div>
+{% endblock %}

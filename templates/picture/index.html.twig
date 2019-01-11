@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes photos{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6"><h1>Toutes mes photos</h1></div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button class="tablink" onclick="openPage('Liste', this, '#919191')" id="defaultOpen">Liste</button>
+                <button class="tablink" onclick="openPage('Portrait', this, '#919191')">Portrait</button>
+                <button class="tablink" onclick="openPage('Paysage', this, '#919191')">Paysage</button>
+            </div>
+        </div>
+        <div id="Liste" class="tabcontent">
+            <table class="table table-dark table-striped">
+                <thead>
+                <tr>
+                    <th>Projet</th>
+                    <th>Album</th>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Nb Com.</th>
+                    <th>Accès</th>
+                    <th>Créé le</th>
+                    <th>Mis à jour le</th>
+                    <th>actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for picture in pictures %}
+                    <tr>
+                        <td><a href="{{ path('projet_show', {slug: picture.prslug}) }}"
+                               class="text-white">{{ picture.projet }}</a></td>
+                        <td><a href="{{ path('album_show', {slug: picture.alslug, id: picture.id}) }}"
+                               class="text-white">{{ picture.album }}</a></td>
+                        <td>{{ picture.title|slice(0,25) }}</td>
+                        <td>{{ picture.description|raw|slice(0,25) }}{% if picture.description|length > 25 %}...{% endif %}</td>
+                        <td>{% if picture.nbCom != 0 %}{{ picture.nbCom }}{% endif %}</td>
+                        <td>{% if picture.private %}<span class="bg-danger p-1">Privé</span>{% else %}<span class="bg-success p-1">Public</span>{% endif %}</td>
+                        <td>{{ picture.createdAt ? picture.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+                        <td>{% if picture.createdAt != picture.updatedAt %}{{ picture.updatedAt|date('d/m/Y H:i:s') }}{% endif %}</td>
+                        <td>
+                            <a href="{{ path('picture_show', {id: picture.id, slug: picture.slug }) }}"
+                               class="btn btn-outline-success"><i class="fas fa-eye"></i></a>
+                            <a href="{{ path('picture_edit', {id: picture.id, slug: picture.slug }) }}"
+                               class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
+                            {{ include('picture/_delete_form.html.twig') }}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7">Aucun enregistrement trouvé</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="Portrait" class="tabcontent">
+            <div class="row">
+                {% for picture in portrait %}
+                    {% if picture.orientation is not empty %}
+                        {% set orientation = picture.orientation %}
+                    {% else %}
+                        {% set orientation = "paysage" %}
+                    {% endif %}
+                    <div class="col-md-3 my-1">
+                        <div class="card bg-secondary">
+                            <div class="card-header">{{ picture.title }}</div>
+                            <div class="card-body">
+                                <a href="{{ path('picture_show', {slug: picture.slug, id: picture.id}) }}">
+                                    <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter(orientation) }}"
+                                         alt="" width="100%" height="auto">
+                                </a>
+                            </div>
+                            <div class="card-footer">{{ picture.album.projet.title }}</div>
+                        </div>
+                    </div>
+                {% else %}
+                {% endfor %}
+            </div>
+        </div>
+        <div id="Paysage" class="tabcontent">
+            <div class="row" style="background-color: #313131;">
+                {% for picture in paysage %}
+                    {% if picture.orientation is not empty %}
+                        {% set orientation = picture.orientation %}
+                    {% else %}
+                        {% set orientation = "paysage" %}
+                    {% endif %}
+                    <div class="col-md-3 my-1">
+                        <div class="card bg-secondary">
+                            <div class="card-header">{{ picture.title }}</div>
+                            <div class="card-body">
+                                <a href="{{ path('picture_show', {slug: picture.slug, id: picture.id}) }}">
+                                    <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter(orientation) }}"
+                                         alt="" width="100%" height="auto">
+                                </a>
+                            </div>
+                            <div class="card-footer">{{ picture.album.projet.title }} - {{ picture.album.title }}</div>
+                        </div>
+                    </div>
+                {% else %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        function openPage(pageName, elmnt, color) {
+            // Hide all elements with class="tabcontent" by default */
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Remove the background color of all tablinks/buttons
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].style.backgroundColor = "";
+            }
+
+            // Show the specific tab content
+            document.getElementById(pageName).style.display = "block";
+
+            // Add the specific color to the button used to open the tab content
+            elmnt.style.backgroundColor = color;
+        }
+
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+    </script>
+{% endblock %}

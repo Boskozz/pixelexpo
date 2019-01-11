@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition de la photo : {{ picture.title }}{% endblock %}
+
+{% block body %}
+<div class="container-fluid my-3">
+    <div class="row">
+        <div class="col">
+            <div class="col-md-{% if picture.orientation == "paysage" %}9{% else %}4{% endif %} justify-content-center">
+                {% if picture.orientation is not empty %}
+                    {% set tmp = vich_uploader_asset(picture, 'imageFile') | imagine_filter(picture.orientation) %}
+                {% else %}
+                    {% set tmp = vich_uploader_asset(picture, 'imageFile') | imagine_filter("portrait") %}
+                {% endif %}
+                <img src="{{ tmp }}" alt="" width="100%" height="auto">
+            </div>
+        </div>
+        <div class="col-md-3 cadre-bord">
+            <h5>Edition de la photo : </h5>
+            <h2 class="text-center">{{ picture.title }}</h2>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-outline-primary">Valider la modification</button>
+            <a href="{{ path('picture_show', {slug: picture.slug, id: picture.id}) }}" class="btn btn-outline-secondary">Retour
+                à l'image</a>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
+

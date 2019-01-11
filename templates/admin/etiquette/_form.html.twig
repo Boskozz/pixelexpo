@@ -1,0 +1,5 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-outline-success">{{ button_label|default('Valider') }}</button>
+    <a href="{{ path('admin_etiquette_index') }}" class="btn btn-outline-secondary">Liste des étiquettes</a>
+{{ form_end(form) }}

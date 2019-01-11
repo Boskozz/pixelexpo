@@ -1,0 +1,97 @@
+{% if theme == 'sombre' %}
+    {% set navTheme = "navbar-dark bg-dark" %}
+    {% set menuTheme = "background-color: #414141; color: #222222;" %}
+{% else %}
+    {% set navTheme = "navbar-light bg-light" %}
+    {% set menuTheme = "background-color: #DDDDDD; color: #222222;" %}
+{% endif %}
+
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #BBBBBB;">
+    <a class="navbar-brand" href="{{ path('homepage') }}">Pixel Expo</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+            aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor02">
+        {% if app.user %}
+            {% set entite = app.request.get('_route') | split('_') %}
+            {% if entite[1] is defined %}
+                {% if entite[1] == "picture" or entite[1] == "album" %}
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="{{ path('public_profile', {username: app.request.pathInfo|split('/')[1]}) }}"
+                               class="nav-link">
+                                <h4>{{ app.request.pathInfo|split('/')[1]|capitalize }}</h4>
+                            </a>
+                        </li>
+                    </ul>
+                {% endif %}
+            {% endif %}
+            <ul class="navbar-nav ml-auto text-white">
+                {% if is_granted('ROLE_CREATOR') %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if entite[0] == "projet" %}active{% endif %}"
+                           href="{{ path('projet_index') }}">Mes projets</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if entite[0] == "album" %}active{% endif %}"
+                           href="{{ path('album_index') }}">Mes albums</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if entite[0] == "picture" %}active{% endif %}"
+                           href="{{ path('picture_index') }}">Mes photos</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ app.user.username|capitalize }}
+                    </a>
+                    <div class="dropdown-menu text-black" aria-labelledby="navbarDropdownMenuLink"
+                         style="{{ menuTheme }}">
+                        <a class="nav-link" href="{{ path('homepage') }}">Accueil</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ path('user_dashboard') }}"
+                           class="nav-link {% if app.request.get('_route') == "user_dashboard" %}active{% endif %}">Tableau
+                            de bord</a>
+                        {% if is_granted('ROLE_CREATOR') %}
+                            <div class="dropdown-divider"></div>
+                            <a class="nav-link {% if entite[0] == "projet" %}active{% endif %}"
+                               href="{{ path('projet_index') }}">Mes projets</a>
+                            <a class="nav-link {% if entite[0] == "album" %}active{% endif %}"
+                               href="{{ path('album_index') }}">Mes albums</a>
+                            <a class="nav-link {% if entite[0] == "picture" %}active{% endif %}"
+                               href="{{ path('picture_index') }}">Mes photos</a>
+                        {% endif %}
+                        <a class="nav-link {% if entite[0] == "comment" %}active{% endif %}"
+                           href="{{ path('comment_mes_com') }}">Mes commentaires</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="nav-link" href="{{ path('logout') }}">Déconnexion</a>
+                    </div>
+                </li>
+                <li class="nav-item mx-2">
+                    <img src="/images/g.png" width="40" alt="" class="rounded">
+                </li>
+            </ul>
+        {% else %}
+            <ul class="navbar-nav ml-auto text-white">
+                <li class="nav-item">
+                    <a href="{{ path('login') }}" class="nav-link">Connexion</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('register') }}">Enregistrement</a>
+                </li>
+            </ul>
+        {% endif %}
+    </div>
+</nav>
+{% for label, messages in app.flashes %}
+    <div class="container mt-2">
+        <div class="alert alert-{{ label }}">
+            {% for message in messages %}
+                <p>{{ message | raw }}</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endfor %}
