@@ -1,6 +1,7 @@
 /public/media/images
 /public/media/projet
 ###> symfony/framework-bundle ###
+.idea/workspace.xml
 /.env
 /.env.*.local
 /public/bundles/

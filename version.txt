@@ -1,8 +1,13 @@
 Mise en ligne le 13 janvier 2019 version 0.1
 --------------------------------------------
 
-Correctif 0.11 - 13/01/19
--------------------------
+Correctif 0.12 - 21/01/2019
+---------------------------
+
+--> Suppression Webpack --> Incompatible Hébergement ! Ridicule !!!!
+
+Correctif 0.11 - 13/01/2019 - 20/01/2019
+--------------------------------------
 
 Twig :
 * projet, admin_projet, album, admin_album
@@ -32,7 +37,6 @@ Twig :
 CSS :
 .cadre-bord : suppression du margin 10px
 Ajout de divers cadre : cadre-form, arondi
-
 
 A FAIRE :
 ---------
