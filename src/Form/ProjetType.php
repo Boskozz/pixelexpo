@@ -18,16 +18,8 @@ class ProjetType extends AbstractType
         $builder
             ->add('title', TextType::class)
             ->add('description', TextareaType::class)
-            ->add('icon', ChoiceType::class, [
-                'label' => 'Icône',
-                'choices' => [
-                    'Soleil' => 'fas fa-sun',
-                    'Flocon de glace' => 'fas fa-snowflake',
-                    'Monument' => 'fas fa-archway',
-                    'Mer' => 'fas fa-anchor',
-                    'Android' => 'fab fa-android',
-                    'Aroba' => 'fas fa-at'
-                ]
+            ->add('imageFile', FileType::class, [
+                'required' => false
             ])
             ->add('color', ChoiceType::class, [
                 'choices' => [
@@ -40,9 +32,6 @@ class ProjetType extends AbstractType
                     'Gris' => 'grey',
                     'Noir' => 'black',
                 ]
-            ])
-            ->add('imageFile', FileType::class, [
-                'required' => false
             ])
             ->add('prive', ChoiceType::class, [
                 'label' => 'Accès',

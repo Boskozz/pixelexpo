@@ -5,6 +5,10 @@
 {% block body %}
     <div class="container my-3">
         <h1>Edition du projet</h1>
-        {{ include('projet/_form.html.twig', {'button_label': 'Valider les mofidications'}) }}
+        <div class="row">
+            <div class="col-md-12 cadre-form">
+                {{ include('projet/_form.html.twig', {'button_label': 'Valider les mofidications'}) }}
+            </div>
+        </div>
     </div>
 {% endblock %}

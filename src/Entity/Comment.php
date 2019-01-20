@@ -32,6 +32,11 @@ class Comment
     private $content;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $reponse;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Picture", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -109,6 +114,18 @@ class Comment
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getReponse(): ?string
+    {
+        return $this->reponse;
+    }
+
+    public function setReponse(?string $reponse): self
+    {
+        $this->reponse = $reponse;
 
         return $this;
     }

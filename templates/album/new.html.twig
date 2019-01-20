@@ -4,15 +4,11 @@
 
 {% block body %}
     <div class="container">
-        <div class="row">
-            <div class="col-md-12 cadre-bord">
-                <h1>Création d'un nouvel album</h1>
-                {{ include('album/_entete.html.twig', {title: projet.title, description: projet.description, color: projet.color, projet: projet}) }}
-                <div class="row">
-                    <div class="col-md-12  py-2 border-top-0">
-                        {{ include('album/_form.html.twig', {button_label: 'Valider la création de l\'album'}) }}
-                    </div>
-                </div>
+        <h1>Création d'un nouvel album</h1>
+        {{ include('album/_entete.html.twig', {title: projet.title, description: projet.description, color: projet.color, projet: projet}) }}
+        <div class="row mt-2">
+            <div class="col-md-12 cadre-form">
+                {{ include('album/_form.html.twig', {button_label: 'Valider la création de l\'album'}) }}
             </div>
         </div>
     </div>

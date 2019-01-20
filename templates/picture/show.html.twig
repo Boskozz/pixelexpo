@@ -12,7 +12,7 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-12">
-                        <button class="tablink" onclick="openPage('Image', this)" id="defaultOpen">Photo</button>
+                        <button class="tablink" onclick="openPage('Image', this)" id="defaultOpen">Image</button>
                         {% if picture.info["Longitude"] is defined %}
                             <button class="tablink" onclick="openPage('Carte', this)">Localisation de la photo</button>
                         {% endif %}
@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div id="Image" class="tabcontent row">
-                    <div class="col-md-12 text-center">
+                    <div class="col-md-12 text-center cadre-arondi">
                         {% if picture.hauteur > 800 %}
                             <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter('thumb500') }}"
                                  alt="" width="100%" height="auto">
@@ -28,6 +28,9 @@
                             <img src="{{ vich_uploader_asset(picture, 'imageFile') }}" alt=""
                                  width="{{ picture.largeur }}" height="{{ picture.hauteur }}">
                         {% endif %}
+                    </div>
+                    <div class="col-md-12 cadre-arondi text-center">
+                        {{ picture.description }}
                     </div>
                 </div>
                 {% if picture.info["Longitude"] is defined %}
@@ -97,7 +100,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col ml-3">
+            <div class="col ml-3 text-center">
                 <a href="{{ path('album_show', {slug: picture.album.slug, id: picture.album.id}) }}"
                    class="btn btn-outline-primary mt-2">Retour
                     à l'album</a>

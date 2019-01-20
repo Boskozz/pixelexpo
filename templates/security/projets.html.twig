@@ -7,7 +7,7 @@
 {% block body %}
     <div class="container mb-2">
         {% for projet in projets %}
-            <div class="row d-flex align-items-end my-2" style="{% if projet.filename is not empty %}
+            <div class="row d-flex justify-content-center my-2" style="{% if projet.filename is not empty %}
                     background-image: url({{ vich_uploader_asset(projet, 'imageFile') }});
             {% else %}
                     background-color: {{ projet.color }}
@@ -17,16 +17,21 @@
                 {{ projet.description }}
             </div>
 
-            {% for album in projet.albums if album.private == false %}
-                {% set vase = album %}
-                <div class="col-md-4 card opa-7 m-2">
-                    <div class="card-header"><a href="{{ path('public_album', {slug: album.slug, id: album.id, username: user.username}) }}" class="noir gras">{{ album.title }}</a></div>
-                    <div class="card-body">{{ album.description }}</div>
-                </div>
-            {% endfor %}
+                {% for album in projet.albums if album.private == false %}
+                    {% set vase = album %}
+                    <div class="col-md-12 col-lg-5 col-xl-3 card opa-7 m-2">
+                        <div class="card-header"><a href="{{ path('public_album', {slug: album.slug, id: album.id, username: user.username}) }}" class="noir gras">{{ album.title }}</a></div>
+                        <div class="card-body">{{ album.description }}</div>
+                    </div>
+                {% endfor %}
+
         </div>
         {% endfor %}
-        <a href="{{ path('homepage') }}" class="btn btn-outline-secondary">Galerie</a>
+        <div class="row">
+            <div class="col text-center">
+                <a href="{{ path('homepage') }}" class="btn btn-outline-secondary">Galerie</a>
+            </div>
+        </div>
     </div>
 {% endblock %}
 

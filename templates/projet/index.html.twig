@@ -28,15 +28,15 @@
             {% for projet in projets %}
                 <tr>
                     <td>{{ projet.title }}</td>
-                    <td>{{ projet.description }}</td>
-                    <td>{{ projet.createdAt ? projet.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ projet.updatedAt ? projet.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ projet.color }}</td>
-                    <td>{% if projet.prive == false %}Public{% else %}Privé{% endif %}</td>
+                    <td>{{ projet.description|slice(0,25) }}</td>
+                    <td>{{ projet.createdAt ? projet.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+                    <td>{{ projet.updatedAt ? projet.updatedAt|date('d/m/Y H:i:s') : '' }}</td>
+                    <td><span style="background-color: {{ projet.color }}; padding: 10px;"> </span></td>
+                    <td>{% if projet.prive %}<span class="bg-danger p-1">Privé</span>{% else %}<span class="bg-success p-1">Public</span>{% endif %}</td>
                     <td>
-                        <a href="{{ path('projet_show', {slug: projet.slug}) }}" class="btn btn-outline-success"><i class="fas fa-eye"></i></a>
-                        <a href="{{ path('projet_edit', {'id': projet.id}) }}" class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
-                        <a href="{{ path('album_new', {slug: projet.slug}) }}" class="btn btn-outline-primary"><i class="fas fa-pen"></i></a>
+                        <a href="{{ path('projet_show', {slug: projet.slug}) }}" class="btn btn-outline-success btn-sm"><i class="fas fa-eye"></i></a>
+                        <a href="{{ path('projet_edit', {'id': projet.id}) }}" class="btn btn-outline-warning btn-sm"><i class="fas fa-edit"></i></a>
+                        <a href="{{ path('album_new', {slug: projet.slug}) }}" class="btn btn-outline-primary btn-sm"><i class="fas fa-pen"></i></a>
                         {{ include('projet/_delete_form.html.twig') }}
                     </td>
                 </tr>
@@ -57,9 +57,13 @@
     <div id="Public" class="tabcontent">
         <div class="row justify-content-center">
             {% for projet in projets %}
-                <div class="col-md-3 rounded py-2 text-center mx-1 my-1" style="background-color: {{ projet.color }}; border: #565656;">
-                    <h3><a href="{{ path('projet_show', {slug: projet.slug}) }}" style="color: white;">{{ projet.title }}</a></h3>
-                    <p>
+                <div class="col-md-7 rounded py-2 text-center  my-1" style="{% if projet.filename is not empty %}
+                    background-image: url({{ vich_uploader_asset(projet, 'imageFile') }});
+            {% else %}
+                    background-color: {{ projet.color }}
+            {% endif %}">
+                    <h2 class="cadre-bord"><a href="{{ path('projet_show', {slug: projet.slug}) }}" style="color: white;">{{ projet.title }}</a></h2>
+                    <p class="cadre-bord">
                         {{ projet.description | raw }}
                     </p>
                 </div>

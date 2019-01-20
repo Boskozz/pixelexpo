@@ -1,0 +1,42 @@
+Mise en ligne le 13 janvier 2019 version 0.1
+--------------------------------------------
+
+Correctif 0.11 - 13/01/19
+-------------------------
+
+Twig :
+* projet, admin_projet, album, admin_album
+--> index --> Ajout du filtre slice pour le champ description
+--> projet_show  --> Ajout du cadre-bord à la description
+--> admin_header --> mt-2 Message Flash
+--> home_index, picture_public --> ajout d'un container-fluid autour du body ( correction directe )
+--> album_public --> fermeture div body ( correction directe )
+--> projet_index, album_index --> Ajout badge Acces Privé (vert) ou Public (rouge)
+--> projet_index --> format date us -> fr
+--> base.html, base.html(admin), public.html --> ajout balise viewport
+--> picture_public --> Ajout de la class img-fluid pour l'adapter à la taille de l'écran ( mobile )
+--> picture_public --> Centrage des boutons de navigation
+--> album_public, projet_public --> Adaption mobile faite
+--> projet_form --> détailler le formulaire
+--> picture_index --> suppression error ! Suppression possible depuis Paysage ou Portrait
+--> dashboard --> Convertion ROLE_ADMIN en Administrateur, idem pour creator et user
+--> picture_public --> Ancrage bouton et div commentaire
+--> Harmonisation des boutons --> btn-sm dans les index
+--> picture_public, picture_show --> Ajout ce la description de l'image
+--> Intégration de Encore --> Attention : lancer un "npm run build"
+--> Comment --> Ajout champ reponse ( une seule réponse par commentaire )
+--> picture_public --> Section commentaire --> Ajout lien vers Répondre au commentaire + formulaire d'ajout
+--> password-update --> Changer de mot de passe + ajout nouvelle classe PasswordUpdate
+-> bouton a partir du profile pour changer son mot de passe
+
+CSS :
+.cadre-bord : suppression du margin 10px
+Ajout de divers cadre : cadre-form, arondi
+
+
+A FAIRE :
+---------
+- Déplacement des répertoires : cache et log, hors du dossier public ( linux / ovh )
+- Tester le site ( Flo, papa, ... )
+- Récupération de mot de passe
+- carouselle sur Album ( slick )

@@ -1,5 +1,20 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-outline-success">{{ button_label|default('Création du nouveau projet') }}</button>
-    <a href="{{ path('projet_index') }}" class="btn btn-outline-secondary">Retour à la liste</a>
+    <div class="row">
+        <div class="col-md-12">{{ form_row(form.title) }}</div>
+        <div class="col-md-12">{{ form_row(form.description) }}</div>
+        <div class="col-md-4">{{ form_row(form.imageFile) }}</div>
+        <div class="col-md-4">{{ form_row(form.color) }}</div>
+        <div class="col-md-4">{{ form_row(form.prive) }}</div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <strong>La couleur de fond n'est disponible que si vous n'avez pas défini d'image de fond</strong>
+        </div>
+    </div>
+<div class="row">
+    <div class="col-md-12 text-center">
+        <button class="btn btn-outline-success mt-2">{{ button_label|default('Création du nouveau projet') }}</button>
+        <a href="{{ path('projet_index') }}" class="btn btn-outline-secondary mt-2">Retour à la liste</a>
+    </div>
+</div>
 {{ form_end(form) }}

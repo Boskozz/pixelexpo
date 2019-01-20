@@ -28,7 +28,7 @@ class HomeController extends AbstractController
         $picturesPublic = $paginator->paginate(
             $repo->findAllPublicQuery($search),
             $request->query->getInt('page', 1),
-            23
+            22
             );
         return $this->render('home/index.html.twig', [
             'pictures' => $picturesPublic,

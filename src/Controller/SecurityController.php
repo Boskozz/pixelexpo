@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\PasswordUpdate;
 use App\Entity\Picture;
 use App\Entity\User;
 use App\Events;
 use App\Form\CommentType;
+use App\Form\PasswordUpdType;
 use App\Form\RegistrationType;
 use App\Repository\AlbumRepository;
 use App\Repository\CommentRepository;
@@ -17,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -69,6 +72,36 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('login');
         }
         return $this->render('security/register.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/update-password", name="update_password")
+     * @param Request $request
+     * @param ObjectManager $em
+     * @param UserPasswordEncoderInterface $encoder
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function updatePassword(Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder) {
+        $passwordUpdate = new PasswordUpdate();
+        $user = $this->getUser();
+        $form = $this->createForm(PasswordUpdType::class, $passwordUpdate);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            if (!password_verify($passwordUpdate->getOldPassword(), $user->getPassword())){
+                $form->get('oldPassword')->addError(new FormError("Votre présent mot de passe ne correspond pas à votre mot de passe actuel !"));
+            } else {
+                $newPass = $passwordUpdate->getNewPassword();
+                $password = $encoder->encodePassword($user, $newPass);
+                $user->setPassword($password);
+                $em->persist($user);
+                $em->flush();
+                $this->addFlash('success', "Mot de passe bien modifié");
+                $this->redirectToRoute('public_profile', ['username' => $user->getUsername()]);
+            }
+        }
+        return $this->render('security/password.html.twig', [
             'form' => $form->createView()
         ]);
     }

@@ -7,8 +7,8 @@
         <h1>Edition d'un utilisateur</h1>
         {{ form_start(form) }}
         {{ form_widget(form) }}
-        <a href="{{ path('admin_user_index') }}" class="btn btn-outline-secondary">Liste utilisateurs</a>
         <button class="btn btn-outline-success">Valider la modification</button>
+        <a href="{{ path('admin_user_index') }}" class="btn btn-outline-secondary">Liste utilisateurs</a>
         {{ form_end(form) }}
     </div>
 {% endblock %}

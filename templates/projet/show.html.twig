@@ -4,28 +4,33 @@
 
 {% block body %}
     <div class="container my-3">
-        <div class="row d-flex align-items-end" style="{% if projet.filename is not empty %}
+        <div class="row d-flex align-items-end mb-2" style="{% if projet.filename is not empty %}
                     background-image: url({{ vich_uploader_asset(projet, 'imageFile') }});
                     height: 200px;
             {% else %}
                     background-color: {{ projet.color }}
             {% endif %}">
-            <div class="col-md-12 text-white text-center" style="">
+            <div class="col-md-12 py-4 text-white text-center">
                 <div class="row">
-                    <div class="col text-ombre">
-                        <h3>Projet : {{ projet.title }}</h3>
+                    <div class="col cadre-bord">
+                        <h3>{{ projet.title }}</h3>
                     </div>
                 </div>
-                <div class="row text-ombre">
-                    <div class="col-md-3">
-                        {{ projet.createdAt ? "Créé le : " ~ projet.createdAt|date('d/m/Y à H:i:s') : '' }}
-                    </div>
-                    <div class="col-md-5">
+                <div class="row">
+                    <div class="col cadre-bord">
                         {{ projet.description }}
                     </div>
-                    <div class="col-md-4">
-                        {{ projet.updatedAt ? "Mis à jour le : " ~ projet.updatedAt|date('d/m/Y à H:i:s') : '' }}
-                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    {{ projet.createdAt ? "Créé le : " ~ projet.createdAt|date('d/m/Y à H:i:s') : '' }}
+                </div>
+
+                <div class="col-md-6 text-right">
+                    {{ projet.updatedAt ? "Mis à jour le : " ~ projet.updatedAt|date('d/m/Y à H:i:s') : '' }}
                 </div>
             </div>
         </div>
@@ -33,14 +38,18 @@
             <div class="col-md-12">
                 <div class="row">
             {% for album in projet.albums %}
-                <div class="col-md-12 bg-secondary py-2 text-center">
+                <div class="col-md-12 cadre-arondi py-2 text-center">
                     <h4><a href="{{ path('album_show', { slug: album.slug, id: album.id }) }}" style="color: white;">{{ album.title }}</a></h4>
                     {{ album.pictures|length }} images
                 </div>
             {% endfor %}
                 </div>
-                <a href="{{ path('projet_index') }}" class="btn btn-outline-secondary mt-3">Retour à la liste</a>
-                <a href="{{ path('projet_edit', {'id': projet.id}) }}" class="btn btn-outline-warning mt-3">Editer</a>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <a href="{{ path('projet_index') }}" class="btn btn-outline-secondary mt-3">Retour à la liste</a>
+                        <a href="{{ path('projet_edit', {'id': projet.id}) }}" class="btn btn-outline-warning mt-3">Editer</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

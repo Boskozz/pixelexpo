@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>{% block title %}Ma Galerie{% endblock %}</title>
         {{ include('partials/_css.html.twig') }}
         {% block stylesheets %}{% endblock %}
@@ -10,7 +11,6 @@
         {% include 'partials/header.html.twig' with {'theme': 'clair'} %}
         {% block body %}{% endblock %}
         {% include 'partials/footer.html.twig' with {'theme': 'text-white'} %}
-        {#{% block footer %}{% endblock %}#}
         {{ include('partials/_js.html.twig') }}
         {% block javascripts %}{% endblock %}
     </body>

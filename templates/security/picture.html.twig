@@ -7,16 +7,16 @@
 {% endblock %}
 
 {% block body %}
-    <div class="my-2">
-        <div class="row justify-content-center">
-            <div class="col-md-10">
+    <div class="my-2 container-fluid">
+        <div class="row d-flex justify-content-md-center">
+            <div class="col-sm-12 col-md-10">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-sm-12 col-xl-8">
                                 <h1>{{ picture.title }}</h1>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-sm-12 col-xl-4">
                                 <div class="alert alert-info">
                                     <div class="alert-heading">
                                         <div class="row justify-content-end">
@@ -27,7 +27,7 @@
                                                 {% if picture.comments|length != 0 %}
                                                     {{ include('partials/_rating.html.twig', {rating: picture.avgRatings}) }}
                                                 {% else %}
-                                                    Rédigez un premier commentaire !
+                                                    Aucune
                                                 {% endif %}
                                             </div>
                                         </div>
@@ -43,36 +43,40 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12 text-center mb-2 img-responsive">
-                        <a href="/media/images/{{ picture.filename }}" target="_blank">
+                    <div class="col-md-12 text-center mb-2">
+                        <a href="#picDesc">
                             {% if picture.hauteur > 800 %}
                                 <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter('rsshow') }}"
-                                     alt="" width="auto" height="auto">
+                                     alt="{{ picture.slug }}" width="auto" height="auto" class="img-responsive img-fluid" id="picIm">
                             {% else %}
-                                <img src="{{ vich_uploader_asset(picture, 'imageFile') }}" alt=""
-                                     width="{{ picture.largeur }}" height="{{ picture.hauteur }}">
+                                <img src="{{ vich_uploader_asset(picture, 'imageFile') }}" alt="{{ picture.slug }}"
+                                     width="{{ picture.largeur }}" height="{{ picture.hauteur }}" class="img-responsive img-fluid" id="picIm">
                             {% endif %}
                         </a>
                     </div>
+                        <div class="col text-center cadre-arondi" id="picDesc" style="display: none">
+                            {{ picture.description }}
+                        </div>
                 </div>
+
                 <div class="row">
-                    <div class="col">
+                    <div class="col text-center">
                         <a href="{{ path('public_album', {username: app.request.pathInfo|split('/')[1], slug: picture.album.slug, id: picture.album.id }) }}"
                            class="btn btn-outline-primary mt-auto">Retour à l'album</a>
                         <a href="{{ path('homepage') }}"
                            class="btn btn-outline-secondary mt-auto">Retour à la galerie</a>
-                        <a href="#" class="btn btn-outline-info" id="commentaires">Afficher / Masquer les commentaires</a>
+                        <a href="#blockcomm" class="btn btn-outline-info" id="commentaires">Afficher / Masquer les commentaires</a>
                     </div>
                 </div>
                 <div class="row mt-2" id="blockcomm" style="display: none">
-                    <div class="col">
+                    <div class="col text-center">
                         {% set commentaire = picture.commentFromAuthor(app.user) %}
                         {% if commentaire is not null %}
                         <h4>Mon commentaire :</h4>
                             <blockquote>{{ commentaire.content }}</blockquote>
                             {{ include('partials/_rating.html.twig', {'rating': commentaire.rating}) }}
                         {% elseif app.user == picture.album.projet.author %}
-                            <h3>Il est interdit de noter ses propres images</h3>
+                            <h5>Il est interdit de commenter ses propres images</h5>
                         {% else %}
                         <h4>Votre avis compte !</h4>
                         {{ form_start(form) }}
@@ -83,10 +87,22 @@
                         {% if picture.comments|length > 0 %}
                             <h4 class="mb-3">Commentaires : </h4>
                             {% for comment in picture.comments %}
-                                <div class="bg-light rounded mb-3 py-3 px-3">
-                                    <strong>{{ comment.author.username|capitalize }}</strong> a dit :
-                                    <blockquote>{{ comment.content }}</blockquote>
-                                    {{ include('partials/_rating.html.twig', {'rating': comment.rating}) }}
+                                <div class="row bg-light rounded mb-3 py-3 px-3">
+                                    <div class="col-xl-6 col-sm-12">
+                                        <strong>{{ comment.author.username|capitalize }}</strong> a dit :
+                                        <blockquote>{{ comment.content }}</blockquote>
+                                        {{ include('partials/_rating.html.twig', {'rating': comment.rating}) }}
+                                    </div>
+                                    <div class="col-xl-6 col-sm-12">
+                                        {% if comment.reponse is not null %}
+                                            <strong>{{ app.request.pathInfo|split('/')[1] }}</strong> a répondu :
+                                            <blockquote>{{ comment.reponse }}</blockquote>
+                                        {% else %}
+                                            {% if app.request.pathInfo|split('/')[1] == app.user.username %}
+                                                <a href="{{ path('reponse-comm', {id: comment.id}) }}" class="btn btn-outline-warning">Répondre</a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
                                 </div>
                             {% endfor %}
                         {% else %}
@@ -94,7 +110,6 @@
                         {% endif %}
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -102,8 +117,13 @@
 
 {% block javascripts %}
     <script>
-        $( "#commentaires" ).click(function() {
-            $( "#blockcomm" ).toggle( "slow", function() {
+        $("#commentaires").click(function() {
+            $("#blockcomm").toggle("slow", function() {
+                // Animation complete.
+            });
+        });
+        $("#picIm").click(function() {
+            $("#picDesc").toggle("slow", function() {
                 // Animation complete.
             });
         });

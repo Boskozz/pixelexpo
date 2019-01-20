@@ -15,12 +15,12 @@
                 <img src="{{ tmp }}" alt="" width="100%" height="auto">
             </div>
         </div>
-        <div class="col-md-3 cadre-bord">
+        <div class="col-md-3 cadre-form mr-2">
             <h5>Edition de la photo : </h5>
             <h2 class="text-center">{{ picture.title }}</h2>
             {{ form_start(form) }}
             {{ form_widget(form) }}
-            <button type="submit" class="btn btn-outline-primary">Valider la modification</button>
+            <button type="submit" class="btn btn-outline-success">Valider la modification</button>
             <a href="{{ path('picture_show', {slug: picture.slug, id: picture.id}) }}" class="btn btn-outline-secondary">Retour
                 à l'image</a>
             {{ form_end(form) }}

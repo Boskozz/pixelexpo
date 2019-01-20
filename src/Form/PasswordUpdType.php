@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Form;
+
+use App\Entity\PasswordUpdate;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class PasswordUpdType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('oldPassword', PasswordType::class, [
+                'label' => 'Présent mot de passe',
+                'attr' => [
+                    'placeholder' => "Indiquez votre mot de passe actuel"
+                ]
+            ])
+            ->add('newPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'Les mots de passe ne correspondent pas !',
+                'options' => ['attr' => ['class' => 'password-field']],
+                'required' => true,
+                'first_options'  => ['label' => 'Nouveau mot de passe', 'attr' => ['placeholder' => "Choisissez un bon mot de passe"]],
+                'second_options' => ['label' => 'Répétez votre mot de passe', 'attr' => ['placeholder' => "Confirmez votre nouveau mot de passe"]],
+            ])
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => PasswordUpdate::class,
+        ]);
+    }
+}

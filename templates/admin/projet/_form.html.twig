@@ -1,6 +1,6 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn btn-outline-primary">{{ button_label }}</button>
+    <button class="btn btn-outline-success">{{ button_label }}</button>
     {% if app.request.attributes.get('_route') == 'admin_projet_new' %}
         <a href="{{ path('admin_projet_index') }}" class="btn btn-outline-secondary">Retour à la liste</a>
     {% elseif app.request.attributes.get('_route') == 'admin_projet_edit' %}

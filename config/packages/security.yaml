@@ -42,4 +42,5 @@ security:
         - { path: ^/projet, roles: ROLE_CREATOR }
         - { path: ^/album, roles: ROLE_CREATOR }
         - { path: ^/image, roles: ROLE_CREATOR }
+        - { path: ^/register, roles: ROLE_ADMIN }
         # - { path: ^/tableau-de-bord, roles: ROLE_USER }

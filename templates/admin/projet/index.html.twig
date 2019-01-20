@@ -4,18 +4,25 @@
 
 {% block body %}
     <div class="container-fluid">
-    <h1 class="cadre-bord-login">Liste des projets</h1>
+        <div class="row">
+            <div class="col-md-10"><h1 class="cadre-bord-login">Liste des projets</h1></div>
+            <div class="col-md-2 text-right">
+                <a href="{{ path('admin_projet_new') }}" class="btn btn-outline-primary mt-2">Ajouter un nouveau projet</a>
+            </div>
+        </div>
+
 
     <table class="table table-dark table-striped table-hover">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>{{ 'title' | trans }}</th>
+                <th>Titre</th>
                 <th>Description</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>Author</th>
+                <th>Créé le</th>
+                <th>Mise à jour le</th>
+                <th>Auteur</th>
                 <th>Slug</th>
+                <th>Accès</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -24,11 +31,12 @@
             <tr>
                 <td>{{ projet.id }}</td>
                 <td>{{ projet.title }}</td>
-                <td>{{ projet.description }}</td>
+                <td>{{ projet.description|slice(0,25) }}</td>
                 <td>{{ projet.createdAt ? projet.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ projet.updatedAt ? projet.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ projet.author.username }}</td>
                 <td>{{ projet.slug }}</td>
+                <td>{% if projet.prive %}<span class="bg-danger p-1">Privé</span>{% else %}<span class="bg-success p-1">Public</span>{% endif %}</td>
                 <td>
                     <a href="{{ path('admin_projet_show', {'slug': projet.slug}) }}" class="btn btn-outline-success btn-sm">Voir</a>
                     <a href="{{ path('admin_projet_edit', {'slug': projet.slug}) }}" class="btn btn-outline-warning btn-sm">Editer</a>
@@ -48,6 +56,5 @@
                 {{ knp_pagination_render(projets) }}
             </div>
         </div>
-        <a href="{{ path('admin_projet_new') }}" class="btn btn-outline-primary">Ajouter un nouveau projet</a>
     </div>
 {% endblock %}

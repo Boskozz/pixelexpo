@@ -13,6 +13,7 @@
             <tr>
                 <th>Nom de l'image</th>
                 <th>Commentaires</th>
+                <th>Utilisateur</th>
                 <th>Notation</th>
             </tr>
             </thead>
@@ -21,6 +22,7 @@
                 <tr>
                     <td>{{ comment.title }}</td>
                     <td>{{ comment.content }}</td>
+                    <td><a href="{{ path('public_profile', {username: comment.username}) }}" class="text-white">{{ comment.username }}</a></td>
                     <td>{{ include('partials/_rating.html.twig', {rating: comment.rating}) }}</td>
                 </tr>
             {% else %}

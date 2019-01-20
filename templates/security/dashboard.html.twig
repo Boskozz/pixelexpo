@@ -7,11 +7,11 @@
 {% block body %}
     <div class="container-fluid mt-3">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-12 col-xl-4">
                 <table class="table table-light table-striped">
                     <tr>
                         <td>Nom d'utilisateur</td>
-                        <td><a href="{{ path('public_profile', {username: user.username}) }}">{{ user.username }}</a>
+                        <td><a href="{{ path('public_profile', {username: user.username}) }}" class="noir">{{ user.username|capitalize }}</a>
                         </td>
                     </tr>
                     <tr>
@@ -36,7 +36,12 @@
                     </tr>
                     <tr>
                         <td>Role</td>
-                        <td>{{ user.roles[0] }}</td>
+                        <td>
+                            {% if user.roles[0] == "ROLE_ADMIN" %}Administrateur
+                            {% elseif user.roles[0] == "ROLE_CREATOR" %}Créateur
+                            {% else %}Utilisateur
+                            {% endif %}
+                        </td>
                     </tr>
                 </table>
                 {% if is_granted("ROLE_CREATOR") %}
@@ -47,9 +52,10 @@
                     <a href="{{ path('admin_dashboard') }}" class="btn btn-outline-danger"><i class="fas fa-tools"></i>
                         Dashboard administrateur</a>
                 {% endif %}
+                <a href="{{ path('update_password') }}" class="btn btn-outline-warning"><i class="fas fa-pencil-alt"></i> Mot de passe</a>
             </div>
             {% if is_granted("ROLE_CREATOR") %}
-                <div class="col-md-8">
+                <div class="col-md-12 col-xl-8">
                     <div class="row">
                         <div class="col-md-12 bg-dark">
                             <div class="row">

@@ -44,6 +44,7 @@ class AlbumController extends AbstractController
      * @param ObjectManager $em
      * @param Projet $projet
      * @return Response
+     * @throws \Exception
      */
     public function new(Request $request, ObjectManager $em, Projet $projet): Response
     {
@@ -112,7 +113,7 @@ class AlbumController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             foreach ($album->getPictures() as $picture){
                 if ($picture->getAutorizeFile() == false){
-                    $this->addFlash('danger', "Les dimensions doivent être inférieur ou égale à 1920 x 1080 et inversément !");
+                    $this->addFlash('danger', "Les dimensions doivent être inférieur ou égale à 1920 x 1920 !");
                     return $this->redirectToRoute('album_edit', ['id' => $album->getId(), 'slug' => $album->getSlug() ]);
                 }
             }

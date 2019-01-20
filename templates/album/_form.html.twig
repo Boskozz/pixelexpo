@@ -1,29 +1,49 @@
 
-<div class="row">
-    <div class="col-md-6">
-        {{ form_start(form) }}
-        {{ form_row(form.title) }}
-        {{ form_row(form.description) }}
-        {{ form_row(form.private) }}
-        {{ form_row(form.pictureFiles) }}
-    </div>
-    <div class="col-md-6">
-        <div class="row flex justify-content-start flex-wrap">
-            {% for picture in album.pictures %}
-                <div class="col" style="width: 100px; margin: 5px;">
-                    <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter('thumb') }}" alt="" width="100">
-                    <a href="{{ path('picture_delete', {id: picture.id}) }}" class="btn btn-danger" data-delete
-                       data-token="{{ csrf_token('delete' ~ picture.id) }}">Supprimer</a>
-                </div>
-            {% endfor %}
+
+    {{ form_start(form) }}
+{% if app.request.attributes.get('_route') == 'album_new' %}
+    <div class="row">
+        <div class="col-md-12">{{ form_row(form.title) }}</div>
+        <div class="col-md-12">{{ form_row(form.description) }}</div>
+        <div class="col-md-6">{{ form_row(form.pictureFiles) }}</div>
+        <div class="col-md-6">{{ form_row(form.private) }}</div>
+        <div class="col md-12 text-center cadre-arondi">
+                Maintenez CTRL pour sélectionner plusieurs images. <br>
+                <span style="color: red">Attention</span> : Le format d'image maximal est de 1920 * 1920
+        </div>
+        <div class="col-md-12 text-center">
+            <button class="btn btn-outline-success">{{ button_label }}</button>
+            <a href="{{ path('album_index') }}" class="btn btn-outline-secondary">Retour à la liste</a>
         </div>
     </div>
-</div>
-    <button class="btn btn-outline-success">{{ button_label }}</button>
-{% if app.request.attributes.get('_route') == 'album_new' %}
-    <a href="{{ path('album_index') }}" class="btn btn-outline-secondary">Retour à la liste</a>
 {% elseif app.request.attributes.get('_route') == 'album_edit' %}
-    <a href="{{ path('album_show', {'slug': album.slug, id: album.id}) }}" class="btn btn-outline-secondary">Retour à l'album</a>
+    <div class="row">
+        <div class="col-md-6 cadre-form">
+            <div class="col-md-12">{{ form_row(form.title) }}</div>
+            <div class="col-md-12">{{ form_row(form.description) }}</div>
+            <div class="col-md-12">{{ form_row(form.pictureFiles) }}</div>
+            <div class="col-sm-12 col-md-12 col-lg-12">{{ form_row(form.private) }}</div>
+            <div class="col-md-12 text-center"><button class="btn btn-outline-success">{{ button_label }}</button></div>
+        </div>
+        <div class="col-md-5">
+            <div class="row flex justify-content-start flex-wrap">
+                {% for picture in album.pictures %}
+                    <div class="col" style="width: 100px; margin: 5px;">
+                        <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter('thumb') }}" alt="" width="100">
+                        <a href="{{ path('picture_delete', {id: picture.id}) }}" class="btn btn-danger" data-delete
+                           data-token="{{ csrf_token('delete' ~ picture.id) }}">Supprimer</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-12 cadre-arondi rounded text-center">
+            <span style="color: red">Attention</span> : La suppression des images se fait instantanément, sans validation du formulaire !
+        </div>
+        <div class="col-md-12 text-center">
+            <a href="{{ path('album_show', {'slug': album.slug, id: album.id}) }}" class="btn btn-outline-secondary">Retour à l'album</a>
+        </div>
+    </div>
 {% endif %}
+</div>
 {{ form_end(form) }}
 

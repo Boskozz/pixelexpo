@@ -1,0 +1,24 @@
+{% extends 'public.html.twig' %}
+
+{% block title %}Répondre au commentaire{% endblock %}
+
+{% block body %}
+    <div class="container text-center my-2">
+        <h2>Réponse au commentaire de {{ comment.author.username|capitalize }}</h2>
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-12">
+                {{ comment.content }}
+            </div>
+            <div class="col-md-12 my-2">
+                {{ form_widget(form.reponse) }}
+            </div>
+        </div>
+        <button class="btn btn-outline-success">Valider votre réponse</button>
+        <a href="{{ path('public_picture', {id: comment.picture.id, slug: comment.picture.slug,
+            username: comment.picture.album.projet.author.username}) }}" class="btn btn-outline-secondary">
+            Retour à l'image
+        </a>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

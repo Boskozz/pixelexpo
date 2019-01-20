@@ -7,57 +7,59 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <h1>Galerie</h1>
-            <h3>toutes les images publiques de nos membres</h3>
-        </div>
-    </div>
-    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-    <div class="row">
-        <div class="col text-right mr-3">
-            <a id="clickme" style="cursor: pointer">
-                Afficher / Masquer la recherche
-            </a>
-        </div>
-    </div>
-    <div id="book">
-        <div class="jumbotron">
-            <div class="container">
-                {{ form_start(form) }}
-                <div class="form-row">
-                    <div class="col">
-                        {{ form_row(form.etiquettes) }}
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                        {{ form_row(form.orientation) }}
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <button class="btn btn-outline-primary">Rechercher</button>
-                        </div>
-                    </div>
-                </div>
-                {{ form_end(form) }}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1>Galerie</h1>
+                <h3>toutes les images publiques de nos membres</h3>
             </div>
         </div>
-    </div>
-    {% endif %}
-    <div class="container-fluid">
-        <div id="mygallery">
-            {% for picture in pictures %}
-                <a href="{{ path('public_picture', {username: picture.username, slug: picture[0].slug, id: picture[0].id}) }}">
-                    <img src="{{ vich_uploader_asset(picture[0], 'imageFile') | imagine_filter('rsgalerie') }}"
-                         width="auto" height="300" alt="">
-                </a>
-            {% endfor %}
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <div class="row">
+                <div class="col text-right mr-3">
+                    <a id="clickme" style="cursor: pointer">
+                        Afficher / Masquer la recherche
+                    </a>
+                </div>
+            </div>
+            <div id="book">
+                <div class="jumbotron">
+                    <div class="container">
+                        {{ form_start(form) }}
+                        <div class="form-row">
+                            <div class="col">
+                                {{ form_row(form.etiquettes) }}
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    {{ form_row(form.orientation) }}
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <button class="btn btn-outline-primary">Rechercher</button>
+                                </div>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="container-fluid">
+            <div id="mygallery">
+                {% for picture in pictures %}
+                    <a href="{{ path('public_picture', {username: picture.username, slug: picture[0].slug, id: picture[0].id}) }}">
+                        <img src="{{ vich_uploader_asset(picture[0], 'imageFile') | imagine_filter('rsgalerie') }}"
+                             width="auto" height="300" alt="">
+                    </a>
+                {% endfor %}
+            </div>
         </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="pagination">
-            {{ knp_pagination_render(pictures) }}
+        <div class="row justify-content-center">
+            <div class="pagination">
+                {{ knp_pagination_render(pictures) }}
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -72,8 +74,8 @@
         $(document).ready(function () {
             $("#book").hide();
         });
-        $("#clickme").click(function() {
-            $("#book").toggle("slow", function() {
+        $("#clickme").click(function () {
+            $("#book").toggle("slow", function () {
                 // Animation complete.
             });
         });

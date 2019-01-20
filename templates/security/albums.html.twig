@@ -5,12 +5,12 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/justifiedGallery.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/justifiedGallery.min.css') }}"/>
 {% endblock %}
 
 {% block body %}
-    <div class="container-fluid my-3">
-        <div class="row d-flex align-items-end" style="{% if album.projet.filename is not empty %}
+    <div class="container my-3">
+        <div class="row d-flex align-items-center" style="{% if album.projet.filename is not empty %}
                     background-image: url({{ vich_uploader_asset(album.projet, 'imageFile') }});
                     height: 200px;
             {% else %}
@@ -18,12 +18,12 @@
             {% endif %}">
             <div class="col-md-12 py-4 text-white text-center">
                 <div class="row">
-                    <div class="col">
-                        <h3>Projet : {{ album.projet.title }}</h3>
+                    <div class="col cadre-bord">
+                        <h3>{{ album.projet.title }}</h3>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
+                    <div class="col cadre-bord">
                         {{ album.projet.description }}
                     </div>
                 </div>
@@ -34,30 +34,37 @@
                 Créé le : {{ album.createdAt|date("d/m/Y à H:m:s") }}
             </div>
             <div class="col-md-4 text-center">
-                Album : {{ album.title }}
+                <h2>{{ album.title }}</h2>
+
             </div>
             <div class="col-md-4 text-right">
                 {% if album.updatedAt is not empty %}Mis à jour le : {{ album.updatedAt|date("d/m/Y à H:m:s") }}{% endif %}
             </div>
         </div>
-        <div class="row justify-content-center" style="background-color: #DDDDDD">
+        <div class="row justify-content-center" style='background-color: #DDDDDD'>
             <div class="col-md-10 text-center">
                 {{ album.description }}
             </div>
-        </div>
         <div id="mygallery">
-        {% cache 'album' ~ album.id album.updatedAt.timestamp %}
-            {% for picture in pictures %}
-                <a href="{{ path('public_picture', {slug: picture.slug, id: picture.id, username: app.request.pathInfo|split('/')[1]}) }}">
-                    {% set tmp = vich_uploader_asset(picture, 'imageFile') | imagine_filter('rsgalerie')  %}
-                    <img src="{{ tmp }}" alt="" class="">
-                </a>
-
-            {% endfor %}
-        {% endcache %}
+            {% cache 'album' ~ album.id album.updatedAt.timestamp %}
+                {% for picture in pictures %}
+                    <a href="{{ path('public_picture', {slug: picture.slug, id: picture.id, username: app.request.pathInfo|split('/')[1]}) }}">
+                        {% set tmp = vich_uploader_asset(picture, 'imageFile') | imagine_filter('rsgalerie') %}
+                        <img src="{{ tmp }}" alt="{{ picture.slug }}" class="">
+                    </a>
+                {% endfor %}
+            {% endcache %}
         </div>
-        <a href="{{ path('public_projet', {username: app.request.pathInfo|split('/')[1]}) }}" class="btn btn-outline-secondary mt-2">Projets publics de {{ app.request.pathInfo|split('/')[1]|capitalize }}</a>
-        <a href="{{ path('homepage') }}" class="btn btn-outline-primary mt-2">Galerie</a>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <a href="{{ path('public_projet', {username: app.request.pathInfo|split('/')[1]}) }}"
+                   class="btn btn-outline-secondary mt-2">Projets publics
+                    de {{ app.request.pathInfo|split('/')[1]|capitalize }}</a>
+                <a href="{{ path('homepage') }}" class="btn btn-outline-primary mt-2">Galerie</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
