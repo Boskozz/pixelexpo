@@ -15,10 +15,22 @@
                 <hr style="border-top: 1px solid #ccc; width: 100%">
                 {#{% cache 'user' ~ user.id user.refresh.timestamp %}#}
                 {% for projet in projets %}
-                    <div class="row text-white my-2 bg-dark">
-                        <div class="col">{{ projet.title }}</div>
-                        <div class="col">{{ projet.description|slice(0,25) }}</div>
+                    <div class="row text-white my-2 bg-dark" style="
+                    {% if projet.filename is not empty %}
+                            background-image: url({{ vich_uploader_asset(projet, 'imageFile') }});
+                            height: 200px;
+                            background-repeat: no-repeat;
+                            background-position: center;
+                    {% else %}
+                            background-color: {{ color }}
+                    {% endif %}
+                            ">
+
                         <div class="col">
+                            <h4>{{ projet.title }}</h4>
+                            <p>{{ projet.description|slice(0,50) }}</p>
+                        </div>
+                        <div class="col text-right">
                             <a href="{{ path('projet_show', {slug: projet.slug}) }}" class="btn btn-outline-success btn-sm" title="Voir le projet"><i class="fas fa-eye"></i></a>
                             <a href="{{ path('projet_edit', {id: projet.id}) }}" class="btn btn-outline-warning btn-sm" title="Editer le projet"><i class="fas fa-edit"></i></a>
                             <a href="{{ path('album_new', {slug: projet.slug}) }}" class="btn btn-outline-primary btn-sm" title="Ajouter un nouvel album"><i class="fas fa-pen"></i></a>
@@ -31,24 +43,42 @@
                             <div class="row text-white my-2">
                                 <div class="col"><a href="#" class="text-white" id="lienAl{{ key }}">{{ album.title }}</a></div>
                                 <div class="col">{{ album.description|slice(0,25) }}</div>
-                                <div class="col">
+                                <div class="col text-right">
                                     <a href="{{ path('album_show', {id: album.id, slug: album.slug}) }}" class="btn btn-outline-success btn-sm" title="Voir le album"><i class="fas fa-eye"></i></a>
                                     <a href="{{ path('album_edit', {id: album.id, slug: album.slug}) }}" class="btn btn-outline-warning btn-sm" title="Editer le album"><i class="fas fa-edit"></i></a>
                                     {{ include('album/_delete_form.html.twig') }}
                                 </div>
                             </div>
-                            <div class="row pl-4" id="imageAl{{ key }}" style="background-color: #777777; display: none">
+                            <div class="row pl-4" id="imageAl{{ key }}" style="background-color: #777777; display: none;">
                                 <div class="col">
-                                {% for picture in album.pictures %}
                                     <div class="row text-white my-2">
-                                        <div class="col">{{ picture.title }}</div>
-                                        <div class="col">{{ picture.description|slice(0,25) }}</div>
-                                        <div class="col">
-                                            <a href="{{ path('picture_show', {id: picture.id, slug: picture.slug}) }}" class="btn btn-outline-success btn-sm" title="Voir l'image"><i class="fas fa-eye"></i></a>
-                                            <a href="{{ path('picture_edit', {id: picture.id, slug: picture.slug}) }}" class="btn btn-outline-warning btn-sm" title="Editer l'image"><i class="fas fa-edit"></i></a>
+                                {% for picture in album.pictures %}
+                                        <div class="card bg-dark mr-1 mb-1">
+                                            <div class="card-header">{{ picture.title }}</div>
+                                            <div class="card-body">
+                                                {% set tmp = vich_uploader_asset(picture, 'imageFile') | imagine_filter('thumb')  %}
+                                                <img src="{{ tmp }}" alt="" width="" height="" class="my-1 mx-1">
+                                            </div>
+                                            <div class="card-footer">
+                                                <div class="row">
+                                                    {{ picture.description|slice(0,25) }}
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col text-center">
+                                                        <a href="{{ path('picture_show', {id: picture.id, slug: picture.slug}) }}" class="btn btn-outline-success btn-sm" title="Voir l'image"><i class="fas fa-eye"></i></a>
+                                                        <a href="{{ path('picture_edit', {id: picture.id, slug: picture.slug}) }}" class="btn btn-outline-warning btn-sm" title="Editer l'image"><i class="fas fa-edit"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                        {#<div class="col">{{ picture.title }}</div>#}
+                                        {#<div class="col">{{ picture.description|slice(0,25) }}</div>#}
+                                        {#<div class="col text-right">#}
+                                            {#<a href="{{ path('picture_show', {id: picture.id, slug: picture.slug}) }}" class="btn btn-outline-success btn-sm" title="Voir l'image"><i class="fas fa-eye"></i></a>#}
+                                            {#<a href="{{ path('picture_edit', {id: picture.id, slug: picture.slug}) }}" class="btn btn-outline-warning btn-sm" title="Editer l'image"><i class="fas fa-edit"></i></a>#}
+                                        {#</div>#}
                                 {% endfor %}
+                                    </div>
                                 </div>
                             </div>
                         {% endfor %}

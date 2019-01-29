@@ -1,6 +1,12 @@
 Mise en ligne le 13 janvier 2019 version 0.1
 --------------------------------------------
 
+Correctif 0.14 - 29/01/2019
+---------------------------
+
+--> Sécuriser gestion_complete
+--> Amélioration visuel Gestion Complète
+
 Correctif 0.13 - 21/01/2019 - 29/01/2019
 ----------------------------------------
 
@@ -63,3 +69,7 @@ A FAIRE :
 - Tester le site ( Flo, papa, ... )
 - Récupération de mot de passe
 - carouselle sur Album ( slick )
+
+Question :
+----------
+--> Cacher les titres des photos si pas connecté ?
