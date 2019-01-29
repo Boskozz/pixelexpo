@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Events;
 use App\Form\CommentType;
 use App\Form\PasswordUpdType;
+use App\Form\ProfileType;
 use App\Form\RegistrationType;
 use App\Repository\AlbumRepository;
 use App\Repository\CommentRepository;
@@ -155,6 +156,27 @@ class SecurityController extends AbstractController
      */
     public function profilPublic(User $user) {
         return $this->render('security/profile.html.twig', compact('user'));
+    }
+
+    /**
+     * @Route("/{username}/edition-profil", name="profile_edit")
+     * @param User $user
+     * @param Request $request
+     * @param ObjectManager $em
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function profilEdit(User $user, Request $request, ObjectManager $em) {
+        $form = $this->createForm(ProfileType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($user);
+            $em->flush();
+            $this->addFlash('success', "Profil modifié avec success");
+            return $this->redirectToRoute('public_profile', ['username' => $user->getUsername()]);
+        }
+        return $this->render('security/editProfil.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**

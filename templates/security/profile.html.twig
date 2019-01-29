@@ -22,16 +22,12 @@
                         <td>{{ user.lastName }}</td>
                     </tr>
                     <tr>
-                        <td>Email</td>
-                        <td>{{ user.email }}</td>
+                        <td>Description</td>
+                        <td>{{ user.description }}</td>
                     </tr>
                     <tr>
                         <td>Membre depuis le</td>
                         <td>{{ user.createdAt|date('d/m/Y') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Profil maj le</td>
-                        <td>{{ user.updatedAt|date('d/m/Y') }}</td>
                     </tr>
                 </table>
             </div>

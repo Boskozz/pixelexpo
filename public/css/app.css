@@ -230,3 +230,18 @@ a:hover>div {
     border-color: #36eeff;
     border-width: 3px;
 }
+.btn-outline-violet:hover {
+    color: #7b68ff;
+    background-color: transparent;
+    background-image: none;
+    border-color: #6514e2;
+    border-width: 3px;
+}
+
+.btn-outline-violet {
+    color: #6514e2;
+    background-color: #a491e0;
+    background-image: none;
+    border-color: #892dff;
+    border-width: 3px;
+}

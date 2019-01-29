@@ -104,6 +104,11 @@ class User implements UserInterface
     private $estActif;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $refresh;
+
+    /**
      * Initialise le slug
      * @ORM\PrePersist
      * @ORM\PreUpdate
@@ -373,6 +378,18 @@ class User implements UserInterface
     public function setEstActif(bool $estActif): self
     {
         $this->estActif = $estActif;
+
+        return $this;
+    }
+
+    public function getRefresh(): ?\DateTimeInterface
+    {
+        return $this->refresh;
+    }
+
+    public function setRefresh(?\DateTimeInterface $refresh): self
+    {
+        $this->refresh = $refresh;
 
         return $this;
     }

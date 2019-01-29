@@ -45,6 +45,13 @@ class PictureType extends AbstractType
                     'placeholder' => "Choisissez au moins un tag, une étiquette"
                 ]
             ])
+            ->add('libre', ChoiceType::class, [
+                'label' => 'Libre de droit (Permet le téléchargment de l\'image en pleine résolution)',
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false
+                ]
+            ])
         ;
     }
 

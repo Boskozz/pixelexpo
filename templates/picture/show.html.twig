@@ -22,15 +22,24 @@
                 <div id="Image" class="tabcontent row">
                     <div class="col-md-12 text-center cadre-arondi">
                         {% if picture.hauteur > 800 %}
-                            <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter('thumb500') }}"
-                                 alt="" width="100%" height="auto">
+                            <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter('rsshow') }}"
+                                 alt="{{ picture.title }}" width="100%" height="auto" class="img-responsive img-fluid">
                         {% else %}
-                            <img src="{{ vich_uploader_asset(picture, 'imageFile') }}" alt=""
-                                 width="{{ picture.largeur }}" height="{{ picture.hauteur }}">
+                            <img src="{{ vich_uploader_asset(picture, 'imageFile') }}" alt="{{ picture.title }}"
+                                 width="{{ picture.largeur }}" height="{{ picture.hauteur }}" class="img-responsive img-fluid">
                         {% endif %}
                     </div>
                     <div class="col-md-12 cadre-arondi text-center">
-                        {{ picture.description }}
+                        <div class="row">
+                            <div class="col-8">
+                                {{ picture.description }}
+                            </div>
+                            {% if picture.libre %}
+                            <div class="col-4">
+                                <a href="/media/images/{{ picture.filename }}" class="text-white" target="_blank">Télécharger l'image</a>
+                            </div>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
                 {% if picture.info["Longitude"] is defined %}
@@ -104,6 +113,7 @@
                 <a href="{{ path('album_show', {slug: picture.album.slug, id: picture.album.id}) }}"
                    class="btn btn-outline-primary mt-2">Retour
                     à l'album</a>
+                <a href="{{ path('gestion_complete') }}" class="btn btn-outline-violet mt-2">Gestion complète</a>
                 <a href="{{ path('picture_index') }}"
                    class="btn btn-outline-secondary mt-2">Retour
                     aux photos</a>

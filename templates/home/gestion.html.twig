@@ -1,0 +1,129 @@
+{% extends 'public.html.twig' %}
+
+{% block title %}Gestion complète{% endblock %}
+
+{% block body %}
+    <div class="container-fluid my-3">
+        <div class="row">
+            <div class="col text-right">
+                <a href="{{ path('projet_new') }}" class="btn btn-outline-primary mb-2">Ajouter un nouveau projet</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col bg-dark">
+                <h2 class="text-white">PROJETS</h2>
+                <hr style="border-top: 1px solid #ccc; width: 100%">
+                {#{% cache 'user' ~ user.id user.refresh.timestamp %}#}
+                {% for projet in projets %}
+                    <div class="row text-white my-2 bg-dark">
+                        <div class="col">{{ projet.title }}</div>
+                        <div class="col">{{ projet.description|slice(0,25) }}</div>
+                        <div class="col">
+                            <a href="{{ path('projet_show', {slug: projet.slug}) }}" class="btn btn-outline-success btn-sm" title="Voir le projet"><i class="fas fa-eye"></i></a>
+                            <a href="{{ path('projet_edit', {id: projet.id}) }}" class="btn btn-outline-warning btn-sm" title="Editer le projet"><i class="fas fa-edit"></i></a>
+                            <a href="{{ path('album_new', {slug: projet.slug}) }}" class="btn btn-outline-primary btn-sm" title="Ajouter un nouvel album"><i class="fas fa-pen"></i></a>
+                            {{ include('projet/_delete_form.html.twig') }}
+                        </div>
+                    </div>
+                    <div class="row pl-2" style="background-color: #565656">
+                        <div class="col">
+                        {% for key, album in albums if album.projet == projet %}
+                            <div class="row text-white my-2">
+                                <div class="col"><a href="#" class="text-white" id="lienAl{{ key }}">{{ album.title }}</a></div>
+                                <div class="col">{{ album.description|slice(0,25) }}</div>
+                                <div class="col">
+                                    <a href="{{ path('album_show', {id: album.id, slug: album.slug}) }}" class="btn btn-outline-success btn-sm" title="Voir le album"><i class="fas fa-eye"></i></a>
+                                    <a href="{{ path('album_edit', {id: album.id, slug: album.slug}) }}" class="btn btn-outline-warning btn-sm" title="Editer le album"><i class="fas fa-edit"></i></a>
+                                    {{ include('album/_delete_form.html.twig') }}
+                                </div>
+                            </div>
+                            <div class="row pl-4" id="imageAl{{ key }}" style="background-color: #777777; display: none">
+                                <div class="col">
+                                {% for picture in album.pictures %}
+                                    <div class="row text-white my-2">
+                                        <div class="col">{{ picture.title }}</div>
+                                        <div class="col">{{ picture.description|slice(0,25) }}</div>
+                                        <div class="col">
+                                            <a href="{{ path('picture_show', {id: picture.id, slug: picture.slug}) }}" class="btn btn-outline-success btn-sm" title="Voir l'image"><i class="fas fa-eye"></i></a>
+                                            <a href="{{ path('picture_edit', {id: picture.id, slug: picture.slug}) }}" class="btn btn-outline-warning btn-sm" title="Editer l'image"><i class="fas fa-edit"></i></a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+                {#{% endcache %}#}
+            </div>
+        </div>
+        {#<div class="row justify-content-center">#}
+            {#<div class="col-4 bg-dark p-2 text-white ">#}
+                {# PROJET #}
+                {#<h2>PROJETS</h2>#}
+                {#<hr style="border-top: 1px solid #ccc; width: 100%">#}
+                {#{% for projet in projets %}#}
+                    {#<div class="row">#}
+                        {#<div class="col">{{ projet.title }}</div>#}
+                        {#<div class="col">{{ projet.description|slice(0,25) }}</div>#}
+                        {#<div class="col">#}
+                            {#<a href="{{ path('projet_show', {slug: projet.slug}) }}" class="btn btn-outline-success btn-sm" title="Voir le projet"><i class="fas fa-eye"></i></a>#}
+                            {#<a href="{{ path('projet_edit', {id: projet.id}) }}" class="btn btn-outline-warning btn-sm" title="Editer le projet"><i class="fas fa-edit"></i></a>#}
+                            {#<a href="{{ path('album_new', {slug: projet.slug}) }}" class="btn btn-outline-primary btn-sm" title="Ajouter un nouvel album"><i class="fas fa-pen"></i></a>#}
+                            {#{{ include('projet/_delete_form.html.twig') }}#}
+                        {#</div>#}
+                    {#</div>#}
+                {#{% endfor %}#}
+            {#</div>#}
+            {#<div class="col-4 bg-dark p-2 text-white mx-2">#}
+                {# ALBUM #}
+                {#<h2>ALBUMS</h2>#}
+                {#<hr style="border-top: 1px solid #ccc; width: 100%">#}
+                {#{% for album in albums %}#}
+                    {#<div class="row">#}
+                        {#<div class="col">{{ album.title }}</div>#}
+                        {#<div class="col">{{ album.description|slice(0,25) }}</div>#}
+                        {#<div class="col">#}
+                            {#<a href="{{ path('album_show', {id: album.id, slug: album.slug}) }}" class="btn btn-outline-success btn-sm" title="Voir le album"><i class="fas fa-eye"></i></a>#}
+                            {#<a href="{{ path('album_edit', {id: album.id, slug: album.slug}) }}" class="btn btn-outline-warning btn-sm" title="Editer le album"><i class="fas fa-edit"></i></a>#}
+                            {#{{ include('album/_delete_form.html.twig') }}#}
+                        {#</div>#}
+                    {#</div>#}
+                {#{% endfor %}#}
+            {#</div>#}
+            {#<div class="col-3 bg-dark p-2 text-white ">#}
+                {# PICTURE #}
+                {#<h2>IMAGES</h2>#}
+                {#<hr style="border-top: 1px solid #ccc; width: 100%">#}
+                {#{% for picture in pictures %}#}
+                    {#<div class="row">#}
+                        {#<div class="col">{{ picture.title }}</div>#}
+                        {#<div class="col">{{ picture.description|slice(0,25) }}</div>#}
+                        {#<div class="col">#}
+                            {#<a href="{{ path('picture_show', {id: picture.id, slug: picture.slug}) }}" class="btn btn-outline-success btn-sm" title="Voir le projet"><i class="fas fa-eye"></i></a>#}
+                            {#<a href="{{ path('picture_edit', {id: picture.id, slug: picture.slug}) }}" class="btn btn-outline-warning btn-sm" title="Editer le projet"><i class="fas fa-edit"></i></a>#}
+                        {#</div>#}
+                    {#</div>#}
+                {#{% endfor %}#}
+                {#<div class="row justify-content-center mt-2">#}
+                    {#<div class="pagination">#}
+                        {#{{ knp_pagination_render(pictures) }}#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        {% for key, album in albums %}
+        $("#lienAl{{ key }}").click(function() {
+            $("#imageAl{{ key }}").toggle("slow", function() {
+                // Animation complete.
+            });
+        });
+        {% endfor %}
+    </script>
+{% endblock %}

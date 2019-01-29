@@ -33,7 +33,8 @@
         "symfony/yaml": "4.2.*",
         "twig/cache-extension": "^1.4@dev",
         "twig/extensions": "^1.5",
-        "vich/uploader-bundle": "^1.8"
+        "vich/uploader-bundle": "^1.8",
+      "ext-fileinfo": "*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",

@@ -51,12 +51,13 @@ class ProjetController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->getUser()->setRefresh(new \DateTime());
             $em->persist($projet);
             $em->flush();
 
             $this->addFlash('success', "Projet bien enregistré");
 
-            return $this->redirectToRoute('projet_index');
+            return $this->redirectToRoute('gestion_complete');
         }
 
         return $this->render('projet/new.html.twig', [
@@ -80,6 +81,7 @@ class ProjetController extends AbstractController
      * @param Request $request
      * @param Projet $projet
      * @return Response
+     * @throws \Exception
      */
     public function edit(Request $request, Projet $projet): Response
     {
@@ -87,9 +89,10 @@ class ProjetController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->getUser()->setRefresh(new \DateTime());
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('projet_index', ['id' => $projet->getId()]);
+            return $this->redirectToRoute('gestion_complete');
         }
 
         return $this->render('projet/edit.html.twig', [
@@ -103,15 +106,17 @@ class ProjetController extends AbstractController
      * @param Request $request
      * @param Projet $projet
      * @return Response
+     * @throws \Exception
      */
     public function delete(Request $request, Projet $projet): Response
     {
         if ($this->isCsrfTokenValid('delete'.$projet->getId(), $request->request->get('_token'))) {
+            $this->getUser()->setRefresh(new \DateTime());
             $em = $this->getDoctrine()->getManager();
             $em->remove($projet);
             $em->flush();
         }
 
-        return $this->redirectToRoute('projet_index');
+        return $this->redirectToRoute('gestion_complete');
     }
 }

@@ -44,15 +44,15 @@
                         </td>
                     </tr>
                 </table>
-                {% if is_granted("ROLE_CREATOR") %}
-                    <a href="{{ path('projet_new') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i>
-                        Nouveau projet</a>
-                {% endif %}
+                <a href="{{ path('profile_edit', {username: user.username}) }}" class="btn btn-outline-primary btn-sm">
+                    <i class="fas fa-user-circle"></i>
+                        Editer votre profil
+                </a>
                 {% if is_granted("ROLE_ADMIN") %}
-                    <a href="{{ path('admin_dashboard') }}" class="btn btn-outline-danger"><i class="fas fa-tools"></i>
+                    <a href="{{ path('admin_dashboard') }}" class="btn btn-outline-danger btn-sm"><i class="fas fa-tools"></i>
                         Dashboard administrateur</a>
                 {% endif %}
-                <a href="{{ path('update_password') }}" class="btn btn-outline-warning"><i class="fas fa-pencil-alt"></i> Mot de passe</a>
+                <a href="{{ path('update_password') }}" class="btn btn-outline-warning btn-sm"><i class="fas fa-pencil-alt"></i> Mot de passe</a>
             </div>
             {% if is_granted("ROLE_CREATOR") %}
                 <div class="col-md-12 col-xl-8">
@@ -145,8 +145,16 @@
         </div>
     </div>
     {% if is_granted("ROLE_CREATOR") == true %}
-        <div class="jumbotron my-3 bg-dark text-white">
-            <h2>Mes Projets</h2>
+        <div class="my-3 bg-dark text-white p-3">
+            <div class="row">
+                <div class="col-6"><h2>Mes Projets</h2></div>
+                <div class="col-6 text-right">
+                    {% if is_granted("ROLE_CREATOR") %}
+                        <a href="{{ path('projet_new') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i>
+                            Ajouter un projet</a>
+                    {% endif %}
+                </div>
+            </div>
             <div class="row">
                 {% for projet in user.projets %}
                     {% cache 'projet' ~ projet.id projet.updatedAt.timestamp %}

@@ -20,11 +20,12 @@ class PictureRepository extends ServiceEntityRepository
         parent::__construct($registry, Picture::class);
     }
 
-     /**
-      * Récupération de la liste des images
-      * @return Picture[] Returns an array of Picture objects
-      */
-    public function findByPictureUser($user)
+    /**
+     * Récupération de la liste des images
+     * @param $user
+     * @return \Doctrine\ORM\Query Returns an array of Picture objects
+     */
+    public function findByPictureUserQuery($user)
     {
         $qb = $this->createQueryBuilder('p')
             ->select('p.description', 'p.createdAt', 'p.updatedAt', 'p.title', 'p.slug',
@@ -39,7 +40,7 @@ class PictureRepository extends ServiceEntityRepository
             ->addOrderBy('pr.title', 'ASC')
             ->addOrderBy('a.title', 'ASC')
             ->getQuery()
-            ->getResult()
+            //->getResult()
         ;
         return $qb;
     }
@@ -53,11 +54,13 @@ class PictureRepository extends ServiceEntityRepository
 //            ->addOrderBy('a.title', 'ASC')
 //    }
 
-     /**
-      * Récupération les images pour l'utilisateur en cours selon son orientation
-      * @return Picture[] Returns an array of Picture objects
-      */
-    public function findGalerieUser($user, $orientation)
+    /**
+     * Récupération les images pour l'utilisateur en cours selon son orientation
+     * @param $user
+     * @param $orientation
+     * @return \Doctrine\ORM\Query Returns an array of Picture objects
+     */
+    public function findGalerieUserQuery($user, $orientation)
     {
         return $this->createQueryBuilder('p')
             ->join('p.album', 'a')
@@ -69,7 +72,7 @@ class PictureRepository extends ServiceEntityRepository
             ->addOrderBy('pr.title', 'ASC')
             ->addOrderBy('a.title', 'ASC')
             ->getQuery()
-            ->getResult()
+            //->getResult()
         ;
     }
 

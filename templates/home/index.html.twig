@@ -51,7 +51,7 @@
                 {% for picture in pictures %}
                     <a href="{{ path('public_picture', {username: picture.username, slug: picture[0].slug, id: picture[0].id}) }}">
                         <img src="{{ vich_uploader_asset(picture[0], 'imageFile') | imagine_filter('rsgalerie') }}"
-                             width="auto" height="300" alt="">
+                             width="auto" height="300" alt="{{ picture[0].title }}">
                     </a>
                 {% endfor %}
             </div>

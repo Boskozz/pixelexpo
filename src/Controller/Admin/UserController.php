@@ -9,6 +9,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Form\AdminPassType;
 use App\Form\UserAdminType;
 use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -17,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class UserController
@@ -49,6 +51,7 @@ class UserController extends AbstractController
      * @param User $user
      * @param Request $request
      * @param ObjectManager $em
+     * @param UserPasswordEncoderInterface $encoder
      * @return Response
      */
     public function edit(User $user, Request $request, ObjectManager $em){
@@ -60,6 +63,29 @@ class UserController extends AbstractController
             $this->redirectToRoute('admin_user_index');
         }
         return $this->render('admin/user/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/{username}/change-pass", name="admin_user_pass")
+     * @param User $user
+     * @param Request $request
+     * @param ObjectManager $em
+     * @return Response
+     */
+    public function changePass(User $user, Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder) {
+        $form = $this->createForm(AdminPassType::class, $user);
+        $form->handleRequest($request);
+        if ( $form->isSubmitted() && $form->isValid() ){
+            $newPass = $user->getPassword();
+            $password = $encoder->encodePassword($user, $newPass);
+            $user->setPassword($password);
+            $em->flush();
+            $this->addFlash('success', "Mot de passe mis à jour");
+            $this->redirectToRoute('admin_user_index');
+        }
+        return $this->render('admin/user/pass.html.twig', [
             'form' => $form->createView()
         ]);
     }

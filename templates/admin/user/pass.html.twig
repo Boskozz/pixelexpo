@@ -1,0 +1,14 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Changement du mot de passe{% endblock %}
+
+{% block body %}
+    <div class="container my-3">
+        <h1>Changement du mot de passe</h1>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-outline-success">Valider la modification</button>
+        <a href="{{ path('admin_user_index') }}" class="btn btn-outline-secondary">Liste utilisateurs</a>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

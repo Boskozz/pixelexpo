@@ -1,15 +1,34 @@
 Mise en ligne le 13 janvier 2019 version 0.1
 --------------------------------------------
 
-Correctif 0.12 - 21/01/2019
+Correctif 0.13 - 21/01/2019 - 29/01/2019
+----------------------------------------
+
+--> projet_public --> ajout cadre-bord pour le titre et la description
+--> Rajout de la directive htaccess pour forcer le https (fait direct sur le serveur et en local aussi)
+--> ajout de bulle d'info sur les boutons des pages index (survol)
+--> ajout du titre de l'image pour les images de la galerie
+--> ajout du favicon.ico --> voir logo ( a tester en ligne )
+--> public_picture --> commentaire non obligatoire, juste la cotation !
+--> public_picture --> centrage du commentaire s'il n'y a pas de réponse !
+--> header --> ajout du logo ( première version )
+--> picture_show --> changement du filtre thumb500 en rsshow
+--> Ajout libre à Picture pour laisser l'utilisateur choisir s'il s'agit d'une photo libre de droit ou non
+ -> sinon, accès à la photo full dim par un lien dans la description de l'image
+--> Ajout profile_edit + lien sur Dashboard + suppression email, et maj profile public, et ajout description
+--> Ajout gestion mot de passe admin sans oldpassword !!! ( momentanément -> ajouter récupération de mot de passe par mail )
+--> Ajout d'une interface unique avec Projet, Album et Picture ( arborescence )
+--> Ajout bouton Gestion Complète + redirection vers gestion
+--> Diverses corrections
+
+Correctif 0.12 - 20/01/2019
 ---------------------------
 
 --> Suppression Webpack --> Incompatible Hébergement ! Ridicule !!!!
 
 Correctif 0.11 - 13/01/2019 - 20/01/2019
---------------------------------------
+----------------------------------------
 
-Twig :
 * projet, admin_projet, album, admin_album
 --> index --> Ajout du filtre slice pour le champ description
 --> projet_show  --> Ajout du cadre-bord à la description
@@ -32,7 +51,7 @@ Twig :
 --> Comment --> Ajout champ reponse ( une seule réponse par commentaire )
 --> picture_public --> Section commentaire --> Ajout lien vers Répondre au commentaire + formulaire d'ajout
 --> password-update --> Changer de mot de passe + ajout nouvelle classe PasswordUpdate
--> bouton a partir du profile pour changer son mot de passe
+--> bouton a partir du profile pour changer son mot de passe
 
 CSS :
 .cadre-bord : suppression du margin 10px

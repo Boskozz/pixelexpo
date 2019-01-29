@@ -21,11 +21,11 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $user = new User();
-        $user->setUsername('bosko')
+        $user->setUsername('boskozz')
             ->setFirstName('Jean-Sébastien')
             ->setLastName('Wuilbaut')
             ->setEmail('jesewu@gmail.com')
-            ->setPassword($this->encoder->encodePassword($user, 'bosko'))
+            ->setPassword($this->encoder->encodePassword($user, '|>R$010NEly'))
             ->setRoles(['ROLE_ADMIN']);
         $user1 = new User();
         $user1->setUsername('jjwuil')

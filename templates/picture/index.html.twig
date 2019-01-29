@@ -44,9 +44,9 @@
                         <td>{% if picture.createdAt != picture.updatedAt %}{{ picture.updatedAt|date('d/m/Y H:i:s') }}{% endif %}</td>
                         <td>
                             <a href="{{ path('picture_show', {id: picture.id, slug: picture.slug }) }}"
-                               class="btn btn-outline-success btn-sm"><i class="fas fa-eye"></i></a>
+                               class="btn btn-outline-success btn-sm" title="Voir l'image"><i class="fas fa-eye"></i></a>
                             <a href="{{ path('picture_edit', {id: picture.id, slug: picture.slug }) }}"
-                               class="btn btn-outline-warning btn-sm"><i class="fas fa-edit"></i></a>
+                               class="btn btn-outline-warning btn-sm" title="Editer l'image"><i class="fas fa-edit"></i></a>
                             {#<a href="{{ path('picture_delete', {id: picture.id}) }}" class="btn btn-outline-danger" data-delete#}
                                {#data-token="{{ csrf_token('delete' ~ picture.id) }}"><i class="fas fa-trash"></i></a>#}
                         </td>
@@ -58,6 +58,11 @@
                 {% endfor %}
                 </tbody>
             </table>
+            <div class="row justify-content-center">
+                <div class="pagination">
+                    {{ knp_pagination_render(pictures) }}
+                </div>
+            </div>
         </div>
         <div id="Portrait" class="tabcontent">
             <div class="row">
@@ -80,13 +85,18 @@
                                 <div class="col-md-6">{{ picture.album.projet.title }}</div>
                                 <div class="col-md-6 text-right">
                                     <a href="{{ path('picture_delete', {id: picture.id}) }}" class="btn btn-outline-danger" data-delete
-                                       data-token="{{ csrf_token('delete' ~ picture.id) }}"><i class="fas fa-trash"></i></a>
+                                       data-token="{{ csrf_token('delete' ~ picture.id) }}" title="Supprimer l'image"><i class="fas fa-trash"></i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 {% else %}
                 {% endfor %}
+            </div>
+            <div class="row justify-content-center">
+                <div class="pagination">
+                    {{ knp_pagination_render(portrait) }}
+                </div>
             </div>
         </div>
         <div id="Paysage" class="tabcontent">
@@ -113,7 +123,7 @@
                                     </div>
                                     <div class="col-md-6 text-right">
                                         <a href="{{ path('picture_delete', {id: picture.id}) }}" class="btn btn-outline-danger" data-delete
-                                           data-token="{{ csrf_token('delete' ~ picture.id) }}"><i class="fas fa-trash"></i></a>
+                                           data-token="{{ csrf_token('delete' ~ picture.id) }}" title="Supprimer l'image"><i class="fas fa-trash"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -121,6 +131,11 @@
                     </div>
                 {% else %}
                 {% endfor %}
+            </div>
+            <div class="row justify-content-center">
+                <div class="pagination">
+                    {{ knp_pagination_render(paysage) }}
+                </div>
             </div>
         </div>
     </div>

@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\ImageSearch;
 use App\Entity\Picture;
 use App\Form\ImageSearchType;
+use App\Repository\AlbumRepository;
 use App\Repository\PictureRepository;
+use App\Repository\ProjetRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,5 +62,36 @@ class HomeController extends AbstractController
      */
     public function tutoFaq() {
         return $this->render('home/faq.html.twig');
+    }
+
+    /**
+     * @Route("/gestion", name="gestion_complete")
+     * @param PictureRepository $repoPi
+     * @param AlbumRepository $repoAl
+     * @param ProjetRepository $repoPr
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function gestionComplete(PictureRepository $repoPi , AlbumRepository $repoAl, ProjetRepository $repoPr, PaginatorInterface $paginator, Request $request) {
+        // Projet
+        $mesProjets = $paginator->paginate(
+            $repoPr->findByUserQuery($this->getUser()),
+            $request->query->getInt('projet', 1),
+            10
+        );
+        // Album
+        $albums = $paginator->paginate(
+            $repoAl->findByProjetUserQuery($this->getUser()),
+            $request->query->getInt('album', 1),
+            10
+        );
+        $user = $this->getUser();
+        return $this->render('home/gestion.html.twig', [
+            'projets' => $mesProjets,
+            'albums'  => $albums,
+            'user' => $user
+        ]);
     }
 }

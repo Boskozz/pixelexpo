@@ -60,13 +60,13 @@ class AlbumController extends AbstractController
                     return $this->redirectToRoute('album_new', ['slug' => $projet->getSlug() ]);
                 }
             }
-
+            $this->getUser()->setRefresh(new \DateTime());
             $em->persist($album);
             $em->flush();
 
             $this->addFlash('success', "Album bien enregistré");
 
-            return $this->redirectToRoute('album_index');
+            return $this->redirectToRoute('gestion_complete');
         }
 
         return $this->render('album/new.html.twig', [
@@ -117,6 +117,7 @@ class AlbumController extends AbstractController
                     return $this->redirectToRoute('album_edit', ['id' => $album->getId(), 'slug' => $album->getSlug() ]);
                 }
             }
+            $this->getUser()->setRefresh(new \DateTime());
             $em->flush();
             return $this->redirectToRoute('album_show', ['id' => $album->getId(), 'slug' => $album->getSlug()]);
         }
@@ -132,15 +133,17 @@ class AlbumController extends AbstractController
      * @param Request $request
      * @param Album $album
      * @return Response
+     * @throws \Exception
      */
     public function delete(Request $request, Album $album): Response
     {
         if ($this->isCsrfTokenValid('delete'.$album->getId(), $request->request->get('_token'))) {
+            $this->getUser()->setRefresh(new \DateTime());
             $em = $this->getDoctrine()->getManager();
             $em->remove($album);
             $em->flush();
         }
 
-        return $this->redirectToRoute('album_index');
+        return $this->redirectToRoute('gestion_complete');
     }
 }

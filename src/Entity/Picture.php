@@ -120,6 +120,11 @@ class Picture
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $libre;
+
     public function getAutorizeFile(){
        if ( ($this->getLargeur() > 1920 or $this->getHauteur() > 1920) ) {
             return false;
@@ -168,6 +173,7 @@ class Picture
         $this->etiquettes = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->private = true;
+        $this->libre = false;
     }
 
     public function getId(): ?int
@@ -516,6 +522,18 @@ class Picture
     public function setSlugImage(string $slugImage): self
     {
         $this->slugImage = $slugImage;
+
+        return $this;
+    }
+
+    public function getLibre(): ?bool
+    {
+        return $this->libre;
+    }
+
+    public function setLibre(bool $libre): self
+    {
+        $this->libre = $libre;
 
         return $this;
     }

@@ -55,7 +55,16 @@
                         </a>
                     </div>
                         <div class="col text-center cadre-arondi" id="picDesc" style="display: none">
-                            {{ picture.description }}
+                            <div class="row">
+                                <div class="col-8">
+                                    {{ picture.description }}
+                                </div>
+                                {% if picture.libre %}
+                                <div class="col-4">
+                                    <a href="/media/images/{{ picture.filename }}" class="text-white" target="_blank">Télécharger l'image</a>
+                                </div>
+                                {% endif %}
+                            </div>
                         </div>
                 </div>
 
@@ -87,6 +96,7 @@
                         {% if picture.comments|length > 0 %}
                             <h4 class="mb-3">Commentaires : </h4>
                             {% for comment in picture.comments %}
+                                {% if comment.reponse is not null %}
                                 <div class="row bg-light rounded mb-3 py-3 px-3">
                                     <div class="col-xl-6 col-sm-12">
                                         <strong>{{ comment.author.username|capitalize }}</strong> a dit :
@@ -104,6 +114,15 @@
                                         {% endif %}
                                     </div>
                                 </div>
+                                {% else %}
+                                <div class="row bg-light rounded mb-3 py-3 px-3">
+                                    <div class="col-xl-12 col-sm-12">
+                                        <strong>{{ comment.author.username|capitalize }}</strong> a dit :
+                                        <blockquote>{{ comment.content }}</blockquote>
+                                        {{ include('partials/_rating.html.twig', {'rating': comment.rating}) }}
+                                    </div>
+                                </div>
+                                {% endif %}
                             {% endfor %}
                         {% else %}
                             <h4>Cette image n'a pas encore de commentaires !</h4>
