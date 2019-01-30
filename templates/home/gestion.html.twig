@@ -21,11 +21,8 @@
                             height: 200px;
                             background-repeat: no-repeat;
                             background-position: center;
-                    {% else %}
-                            background-color: {{ color }}
                     {% endif %}
                             ">
-
                         <div class="col">
                             <h4>{{ projet.title }}</h4>
                             <p>{{ projet.description|slice(0,50) }}</p>
@@ -41,7 +38,7 @@
                         <div class="col">
                         {% for key, album in albums if album.projet == projet %}
                             <div class="row text-white my-2">
-                                <div class="col"><a href="#" class="text-white" id="lienAl{{ key }}">{{ album.title }}</a></div>
+                                <div class="col"><a href="#imageAl{{ key }}" class="text-white" id="lienAl{{ key }}">{{ album.title }}</a></div>
                                 <div class="col">{{ album.description|slice(0,25) }}</div>
                                 <div class="col text-right">
                                     <a href="{{ path('album_show', {id: album.id, slug: album.slug}) }}" class="btn btn-outline-success btn-sm" title="Voir le album"><i class="fas fa-eye"></i></a>
@@ -57,7 +54,7 @@
                                             <div class="card-header">{{ picture.title }}</div>
                                             <div class="card-body">
                                                 {% set tmp = vich_uploader_asset(picture, 'imageFile') | imagine_filter('thumb')  %}
-                                                <img src="{{ tmp }}" alt="" width="" height="" class="my-1 mx-1">
+                                                <img src="{{ tmp }}" alt="" width="" height="" class="my-1 mx-1 img-fluid">
                                             </div>
                                             <div class="card-footer">
                                                 <div class="row">

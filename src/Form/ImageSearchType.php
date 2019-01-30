@@ -18,7 +18,7 @@ class ImageSearchType extends AbstractType
             ->add('orientation', ChoiceType::class, [
                 'label' => false,
                 'required' => false,
-                'placeholder' => 'Orientation',
+                'placeholder' => 'Paysage & Portrait',
                 'choices' => [
                     'Paysage' => 'paysage',
                     'Portrait' => 'portrait'

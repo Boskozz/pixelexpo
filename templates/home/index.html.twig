@@ -27,15 +27,23 @@
                     <div class="container">
                         {{ form_start(form) }}
                         <div class="form-row">
-                            <div class="col">
-                                {{ form_row(form.etiquettes) }}
+                            <div class="col-md-2">Tags</div>
+                            <div class="col-xl-8 col-md-10 col-12">
+                                <div class="form-group">
+                                    {{ form_row(form.etiquettes) }}
+                                </div>
                             </div>
-                            <div class="col">
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-2">Orientation</div>
+                            <div class="col-xl-8 col-md-10 col-12">
                                 <div class="form-group">
                                     {{ form_row(form.orientation) }}
                                 </div>
                             </div>
-                            <div class="col">
+                        </div>
+                        <div class="form-row">
+                            <div class="col-xl-12 col-md-12 text-center">
                                 <div class="form-group">
                                     <button class="btn btn-outline-primary">Rechercher</button>
                                 </div>

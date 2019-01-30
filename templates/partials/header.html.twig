@@ -31,6 +31,10 @@
             <ul class="navbar-nav ml-auto text-white">
                 {% if is_granted('ROLE_CREATOR') %}
                     <li class="nav-item">
+                        <a class="nav-link {% if entite[0] == "gestion" %}active{% endif %}"
+                           href="{{ path('gestion_complete') }}">Gestion complète</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {% if entite[0] == "projet" %}active{% endif %}"
                            href="{{ path('projet_index') }}">Mes projets</a>
                     </li>
@@ -57,6 +61,8 @@
                             de bord</a>
                         {% if is_granted('ROLE_CREATOR') %}
                             <div class="dropdown-divider"></div>
+                            <a class="nav-link {% if entite[0] == "projet" %}active{% endif %}"
+                               href="{{ path('gestion_complete') }}">Gestion complète</a>
                             <a class="nav-link {% if entite[0] == "projet" %}active{% endif %}"
                                href="{{ path('projet_index') }}">Mes projets</a>
                             <a class="nav-link {% if entite[0] == "album" %}active{% endif %}"

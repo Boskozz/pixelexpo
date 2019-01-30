@@ -2,7 +2,6 @@
     <div class="col-md-12 py-4 text-white text-center" style="
     {% if projet.filename is not empty %}
         background-image: url({{ vich_uploader_asset(projet, 'imageFile') }});
-        height: 200px;
     {% else %}
         background-color: {{ color }}
     {% endif %}

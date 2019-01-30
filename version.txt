@@ -1,6 +1,17 @@
 Mise en ligne le 13 janvier 2019 version 0.1
 --------------------------------------------
 
+
+
+Correctif 0.15 - 29/01/2019 - 30/01/2019
+----------------------------------------
+--> Ajouter des ancres pour le déroulerment des images dans Gestion Complète
+--> !!! Ne pas mettre d'image au projet fait tout planter !!!! accepter nullable
+--> album_show mobile --> description dépasse
+--> gestion_complete --> img_fluid
+--> picture_index --> paysage portrait symbole
+--> homepage --> les champs de rechercher pour mobile
+
 Correctif 0.14 - 29/01/2019
 ---------------------------
 
